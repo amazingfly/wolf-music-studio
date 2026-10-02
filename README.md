@@ -27,7 +27,7 @@ Linux with Python **3.12** is the tested environment. On Ubuntu/Debian, install 
 ```bash
 sudo apt-get update
 sudo apt-get install -y python3-venv python3-dev build-essential cmake git curl jq pkg-config libssl-dev \
-  ffmpeg mpv rclone libsndfile1 fonts-dejavu-core libegl1 libgl1 libgl1-mesa-dri \
+  ffmpeg mpv rclone wl-clipboard xclip libsndfile1 fonts-dejavu-core libegl1 libgl1 libgl1-mesa-dri \
   libvulkan-dev vulkan-tools \
   glslc glslang-dev glslang-tools spirv-tools spirv-headers mesa-vulkan-drivers mesa-va-drivers
 ```
@@ -99,6 +99,7 @@ The comparison page, `yue2/songwriter/comparison/comparison.html`, tracks raw pa
 - [Migrating the current three-project installation](docs/MIGRATION.md)
 - [Architecture and source map](docs/ARCHITECTURE.md)
 - [Development, testing and publication](docs/DEVELOPMENT.md)
+- [Fresh-install verification and setup corrections](docs/INSTALL_VERIFICATION.md)
 - [Detailed track-library controls](yue2/README_LOCAL_RUN.md)
 - [Trimming algorithm and review viewer](yue2/README_autoTrim.md)
 - [Songwriter V2 design and accounting](yue2/README_songwriter_v2.md)

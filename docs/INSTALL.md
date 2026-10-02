@@ -20,6 +20,8 @@ System dependencies are listed in the main README. `./studio doctor` reports mis
 
 The Vulkan source build requires **`spirv-headers`** in addition to `spirv-tools` and `glslc`: llama.cpp looks for the `SPIRV-Headers` CMake package. Install `libssl-dev` and `pkg-config` as listed in the README for HTTPS-capable engine builds. A successful Python-only setup does not verify these build dependencies.
 
+Native clipboard export uses `wl-copy` from `wl-clipboard` on Wayland or `xclip` on X11; both are included in the system package list. Supporting remote/headless terminals can use the library's OSC 52 fallback. Clipboard availability depends on the current desktop/terminal session.
+
 ## Settings
 
 `./studio init` creates `local/settings.json` and empty queue directories without replacing existing settings. Paths in settings are relative to the checkout or absolute; `~` expands to your home directory. The file is ignored by Git.
