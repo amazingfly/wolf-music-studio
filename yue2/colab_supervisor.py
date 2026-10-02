@@ -4,7 +4,7 @@ import argparse, configparser, json, subprocess, tempfile, time, tarfile, os, sy
 from pathlib import Path
 from archive_run import archive_if_complete
 import archive_run
-from run_config import create_run, load_run
+from run_config import create_run, load_run, seed_sweep_count
 ROOT=Path(__file__).resolve().parent
 STATE=ROOT/'colab_state.json'
 MANIFEST=None
@@ -68,11 +68,15 @@ def main():
     ap.add_argument('--token-cycle',action='store_true')
     ap.add_argument('--keep-session',action='store_true',help='Queue controller releases the VM after archiving')
     ap.add_argument('--reuse-session',action='store_true',help='Allow a queue-owned session across configs')
+    ap.add_argument('--seedSweep','--seed-sweep',type=seed_sweep_count,default=1,
+                    help='Total seeds per song with --config (default: 1); resumes preserve saved requests')
     args=ap.parse_args(); attempt=0; startup_failures=0
+    if args.seedSweep != 1 and not args.config:
+        ap.error('--seedSweep requires --config; resumed runs retain their saved seeds')
     if args.token_cycle and not os.environ.get('YUE2_TOKEN_CYCLE_SCRIPT'):
         ap.error('Token cycling requires YUE2_TOKEN_CYCLE_SCRIPT; default authentication never cycles tokens')
     if args.config or args.resume:
-        MANIFEST=create_run(args.config) if args.config else args.resume.expanduser().resolve()
+        MANIFEST=create_run(args.config, seed_sweep=args.seedSweep) if args.config else args.resume.expanduser().resolve()
         context=load_run(MANIFEST)
         archive_run.configure(MANIFEST)
         STATE=MANIFEST.parent/'colab_state.json'

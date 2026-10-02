@@ -9,7 +9,7 @@ import sys
 import time
 import uuid
 from pathlib import Path
-from run_config import ROOT, create_run, load_run
+from run_config import ROOT, create_run, load_run, seed_sweep_count
 
 
 def write(path, value):
@@ -37,7 +37,7 @@ def next_job(queue):
     return None
 
 
-def prepare_job(job):
+def prepare_job(job, seed_sweep=1):
     record=job/'job.json'
     if record.exists():
         value=json.loads(record.read_text())
@@ -46,7 +46,7 @@ def prepare_job(job):
     configs=list((job/'input').glob('*.json'))
     if len(configs)!=1:
         raise ValueError('Queue job must contain exactly one config')
-    manifest=create_run(configs[0])
+    manifest=create_run(configs[0], seed_sweep=seed_sweep)
     value={'manifest':str(manifest),'config':configs[0].name,'started_at':time.time()}
     write(record,value)
     return value
@@ -82,6 +82,8 @@ def main():
     parser.add_argument('--session',default='yue2-directory-queue')
     parser.add_argument('--gpu',default='T4')
     parser.add_argument('--poll-seconds',type=float,default=10)
+    parser.add_argument('--seedSweep','--seed-sweep',type=seed_sweep_count,default=1,
+                        help='Total seeds per song for new jobs only (default: 1); existing runs stay frozen')
     args=parser.parse_args()
     queue=args.directory.expanduser().resolve()
     for name in ('pending','running','done','failed'):
@@ -102,7 +104,7 @@ def main():
                 continue
             idle_released=False
             try:
-                info=prepare_job(job)
+                info=prepare_job(job, seed_sweep=args.seedSweep)
             except (ValueError,OSError,KeyError,TypeError) as exc:
                 write(job/'error.json',{'error':str(exc),'time':time.time()})
                 job.rename(queue/'failed'/job.name)

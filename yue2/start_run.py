@@ -5,7 +5,7 @@ import subprocess
 import os
 import sys
 from pathlib import Path
-from run_config import create_run, load_run
+from run_config import create_run, load_run, seed_sweep_count
 
 
 def main():
@@ -16,8 +16,12 @@ def main():
     parser.add_argument('--gpu', default='T4')
     parser.add_argument('--token-cycle', action='store_true')
     parser.add_argument('--prepare-only', action='store_true', help='Validate and prepare without starting Colab')
+    parser.add_argument('--seedSweep', '--seed-sweep', type=seed_sweep_count, default=1,
+                        help='Total seeds per input song for a new run (default: 1, original seed)')
     args = parser.parse_args()
-    manifest = create_run(args.config) if args.config else args.resume.expanduser().resolve()
+    if args.resume and args.seedSweep != 1:
+        parser.error('--seedSweep is only for new configs; resumed runs retain their saved seeds')
+    manifest = create_run(args.config, seed_sweep=args.seedSweep) if args.config else args.resume.expanduser().resolve()
     context = load_run(manifest)
     print(f'Output: {manifest.parent}', flush=True)
     if args.prepare_only:

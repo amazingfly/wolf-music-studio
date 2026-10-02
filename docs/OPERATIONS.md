@@ -23,6 +23,10 @@ Use absolute paths when invoking a component from outside the checkout. The queu
 
 ## Queue and output safety
 
+Audio seed sweeping is opt-in. New runs default to one generation per input song using its own seed; `./studio start-run --config FILE --seedSweep 3` creates three total seed variants. `--seed-sweep` is an equivalent spelling. Extra variants keep the same lyrics/style, get deterministic distinct seeds and IDs, and appear in the saved `requests.jsonl`. Add `--prepare-only` to review those requests without cloud work.
+
+The raw directory watcher accepts `python yue2/queue_supervisor.py --seedSweep 3` to apply sweeping to newly claimed jobs. Its default remains one. A saved run always resumes its frozen requests regardless of the watcher's current default; existing WolfcoreV7 sweeps stay intact. Configs that already contain explicit seed variants are preserved as written, so do not add a sweep flag to them unless you want additional variants. Gemma's `--per-idea` count controls different lyrics, not repeated audio generations.
+
 `make-config` accepts substring/glob filename filters, modification-age filters, or an explicit time range. It parses JSON with duplicate-key/nonfinite-value rejection, validates the actual pipeline schema, and atomically publishes the aggregate. Existing pending files are not overwritten.
 
 ```bash

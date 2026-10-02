@@ -42,6 +42,42 @@ def test_original_edits_do_not_change_saved_run(config):
     with pytest.raises(ValueError,match='changed'): run_config.load_run(manifest)
 
 
+def test_default_is_one_generation_and_sweep_is_deterministic(config):
+    original = run_config.songs(config)[0]
+    single = run_config.create_run(config)
+    assert run_config.songs(single.parent/'requests.jsonl') == [original]
+    assert run_config.load_run(single)['seed_sweep'] == 1
+    swept = run_config.create_run(config, seed_sweep=3)
+    rows = run_config.songs(swept.parent/'requests.jsonl')
+    assert len(rows) == 3 and rows[0] == original
+    assert len({row['id'] for row in rows}) == len({row['seed'] for row in rows}) == 3
+    assert all(row['lyrics'] == original['lyrics'] and row['style'] == original['style'] for row in rows)
+    assert rows == run_config.expand_seeds([original], 3)
+    assert run_config.load_run(swept)['seed_sweep'] == 3
+    assert (swept.parent/'source_config.json').read_bytes() == config.read_bytes()
+    # Older sweep manifests remain resumable without a sweep metadata field.
+    context = json.loads(swept.read_text()); context.pop('seed_sweep')
+    swept.write_text(json.dumps(context))
+    assert run_config.songs(swept.parent/'requests.jsonl') == rows
+    run_config.load_run(swept)
+
+
+@pytest.mark.parametrize('count', [0, -1, True, 2.5])
+def test_invalid_sweep_does_not_create_outputs(config, count):
+    with pytest.raises(ValueError, match='positive integer'):
+        run_config.create_run(config, seed_sweep=count)
+    assert not (config.parent/'outputs').exists()
+
+
+def test_sweep_collision_is_rejected_before_output_creation(config):
+    row = run_config.songs(config)[0]
+    expanded = run_config.expand_seeds([row], 2)
+    config.write_text(json.dumps([row, expanded[1]]))
+    with pytest.raises(ValueError, match='duplicate song IDs'):
+        run_config.create_run(config, seed_sweep=2)
+    assert not (config.parent/'outputs').exists()
+
+
 @pytest.mark.parametrize('payload',[
     [], {'songs':[]}, {'id':'../escape','style':'x','lyrics':'x'},
     {'style':'x','lyrics':'x','target_seconds':90},

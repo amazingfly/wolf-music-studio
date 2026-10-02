@@ -44,6 +44,19 @@ def test_fresh_copy_waits(tmp_path):
     assert queue.next_job(root) is None
 
 
+def test_existing_sweep_is_preserved_when_queue_default_changes(tmp_path, monkeypatch):
+    root = setup_queue(tmp_path)
+    monkeypatch.setattr(run_config, 'ROOT', root)
+    add_config(root)
+    job = queue.next_job(root)
+    original = queue.prepare_job(job, seed_sweep=3)
+    requests = Path(original['manifest']).parent/'requests.jsonl'
+    before = requests.read_bytes()
+    assert len(run_config.songs(requests)) == 3
+    assert queue.prepare_job(job) == original
+    assert requests.read_bytes() == before
+
+
 class StopTest(BaseException):
     pass
 

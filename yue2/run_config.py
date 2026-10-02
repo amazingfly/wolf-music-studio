@@ -62,9 +62,39 @@ def songs(path):
     return rows
 
 
-def create_run(config):
+def seed_sweep_count(value):
+    """Argparse-compatible positive count, including the original seed."""
+    try:
+        count = int(value)
+    except (ValueError, TypeError):
+        raise ValueError('Seed sweep count must be a positive integer') from None
+    if count < 1:
+        raise ValueError('Seed sweep count must be a positive integer')
+    return count
+
+
+def expand_seeds(rows, count=1):
+    if type(count) is not int or count < 1:
+        raise ValueError('Seed sweep count must be a positive integer')
+    expanded = []
+    for row in rows:
+        expanded.append(dict(row))
+        used = {row['seed']}
+        for index in range(1, count):
+            digest = hashlib.sha256(f"{row['id']}:{row['seed']}:{index}".encode()).digest()
+            seed = int.from_bytes(digest[:8], 'big') % 2**63
+            while seed in used:
+                seed = (seed + 1) % 2**63
+            used.add(seed)
+            expanded.append({**row, 'id': component(f"{row['id']}_seed{seed}"), 'seed': seed})
+    if len({row['id'] for row in expanded}) != len(expanded):
+        raise ValueError('Seed sweep creates duplicate song IDs; rename the conflicting input songs')
+    return expanded
+
+
+def create_run(config, seed_sweep=1):
     source = Path(config).expanduser().resolve()
-    rows = songs(source)  # Validate before creating anything or requesting a GPU.
+    rows = expand_seeds(songs(source), seed_sweep)  # Validate before creating anything or requesting a GPU.
     stem = re.sub(r'[^A-Za-z0-9_.-]+', '_', source.stem).strip('._-') or 'songs'
     name = component(datetime.now().astimezone().strftime('%Y-%m-%d_%H-%M-%S_%f') + '_' + stem)
     directory = ROOT / 'outputs' / name
@@ -73,6 +103,7 @@ def create_run(config):
     requests = directory / 'requests.jsonl'
     requests.write_text(''.join(json.dumps(row,ensure_ascii=False) + '\n' for row in rows),encoding='utf-8')
     context = {'run_name': name, 'drive_base': DRIVE_BASE, 'source_config': str(source),
+               'seed_sweep': seed_sweep,
                'requests_sha256': hashlib.sha256(requests.read_bytes()).hexdigest(),
                'session': 'yue2-' + hashlib.sha256(name.encode()).hexdigest()[:16],
                'created_at': datetime.now().astimezone().isoformat()}

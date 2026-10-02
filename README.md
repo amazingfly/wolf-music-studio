@@ -79,6 +79,15 @@ The installer does not start services automatically. Services use the `wolfstudi
 
 Accepted songwriter configs are published atomically to `yue2/queue/pending`. The first accepted song is submitted immediately; later configs normally contain ten songs. To submit your own config, validate it with the queue preparation command first or use `make-config`.
 
+Each input song gets **one music generation** using its configured seed. To opt into three seeds per song for a new run:
+
+```bash
+./studio start-run --config songs.json --seedSweep 3
+# Add --prepare-only to inspect requests without allocating Colab.
+```
+
+Three means three total generations, including the original seed. Extra seeds are deterministic and get separate track directories. Resuming a saved run preserves all its requests, including older WolfcoreV7 seed variants. Songwriter story variations are different lyric drafts, not audio seed sweeps.
+
 The library has nonblocking mpv playback, seek controls, clipboard export of prompt JSON and space-separated hashtags, advanced search, and favorite categories that export clean example configs. Its interface and the comparison page use black text on white.
 
 The comparison page, `yue2/songwriter/comparison/comparison.html`, tracks raw passes/failures, ending fixes, isolated lyric repairs, full rewrites and final acceptance independently. It links to available audio/video and lets you score pace, vocals, story and overall quality. Browser ratings can be exported and imported into campaign records. Mechanical acceptance is not a musical-quality score.
