@@ -1,0 +1,13 @@
+{
+  "drive_base": "gDrive:yue2/",
+  "controller_python": ".venv/bin/python",
+  "visualizer_python": "visualizer/.venv/bin/python",
+  "colab_python": ".venv/bin/python",
+  "gemma_root": "gemma",
+  "visualizer_root": "visualizer",
+  "compute_root": "~/.cache/wolf-music-studio/compute",
+  "campaign": "studio_v2",
+  "rclone_config": "~/.config/rclone/rclone.conf",
+  "gemma_gpu_layers": "16",
+  "gemma_context": "12288"
+}

@@ -1,0 +1,23 @@
+[
+  {
+    "id": "frizzed_and_fractured_v2",
+    "path": "examples/historical_configs/2026-09-25_02-22-39_706383_WolfCore.json",
+    "seed": 85301,
+    "original_requests_sha256": "afcc7f91cdbda5f7b08438fcdbfd671995af342b761f08a169fca1587d01d7c0",
+    "archive_sha256": "b37ef042604785120c8436954f868bd887c0e4c5d889a9a380e315aa8ee70345"
+  },
+  {
+    "id": "bone_and_iron_v3",
+    "path": "examples/historical_configs/2026-09-26_18-51-22_286288_wolfcorev3.json",
+    "seed": 85300,
+    "original_requests_sha256": "c0f5cc49df52b6b166664b940c3d6eb0ce061e57fcaa891d34868bbb35dfd4d8",
+    "archive_sha256": "02106a55f32b2c4a40c1799bfec40ceb53e762f974182dfde9ccdfa153e342f9"
+  },
+  {
+    "id": "pelt_and_polish_v3",
+    "path": "examples/historical_configs/2026-09-26_18-51-22_286288_wolfcorev3.json",
+    "seed": 85303,
+    "original_requests_sha256": "c0f5cc49df52b6b166664b940c3d6eb0ce061e57fcaa891d34868bbb35dfd4d8",
+    "archive_sha256": "02106a55f32b2c4a40c1799bfec40ceb53e762f974182dfde9ccdfa153e342f9"
+  }
+]

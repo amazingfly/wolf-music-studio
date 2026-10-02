@@ -1,0 +1,65 @@
+name: Workflow contracts
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  controller:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: |
+            requirements-*.txt
+            locks/*.txt
+            yue2/pyproject.toml
+            visualizer/requirements*.txt
+      - run: sudo apt-get update && sudo apt-get install -y ffmpeg libsndfile1
+      - run: ./studio setup --profile controller --dev
+      - run: python scripts/check_publish.py
+      - name: Controller and packaging contracts
+        run: |
+          .venv/bin/python -m pytest -q tests \
+            yue2/tests/test_archive_run.py yue2/tests/test_auto_trim.py \
+            yue2/tests/test_backup_snapshot.py yue2/tests/test_gemma_prompt_cache.py \
+            yue2/tests/test_local_compute.py yue2/tests/test_make_config.py \
+            yue2/tests/test_partial_download.py yue2/tests/test_process_tracks.py \
+            yue2/tests/test_queue_supervisor.py yue2/tests/test_run_config.py \
+            yue2/tests/test_songwriter.py yue2/tests/test_songwriter_v2.py \
+            yue2/tests/test_track_library.py yue2/tests/test_visualizer_queue.py
+  inference:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: |
+            requirements-*.txt
+            locks/*.txt
+            yue2/pyproject.toml
+            visualizer/requirements*.txt
+      - run: pip install torch==2.10.0 --index-url https://download.pytorch.org/whl/cpu
+      - run: pip install -e './yue2[test]' scipy
+      - name: Full inference and workflow contracts
+        run: PYTHONPATH=yue2/src python -m pytest -q -c yue2/pyproject.toml yue2/tests
+  visualizer:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: |
+            requirements-*.txt
+            locks/*.txt
+            yue2/pyproject.toml
+            visualizer/requirements*.txt
+      - run: sudo apt-get update && sudo apt-get install -y ffmpeg fonts-dejavu-core
+      - run: ./studio setup --profile visualizer
+      - run: visualizer/.venv/bin/python -m pip install pytest
+      - run: PYTHONPATH=visualizer visualizer/.venv/bin/python -m pytest -q visualizer/tests

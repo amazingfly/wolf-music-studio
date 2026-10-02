@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -euo pipefail
+studio_root="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+exec "${STUDIO_BOOTSTRAP_PYTHON:-python3}" "$studio_root/studio.py" "$@"

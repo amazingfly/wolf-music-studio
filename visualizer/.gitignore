@@ -1,0 +1,44 @@
+# Audio files
+*.ogg
+*.mp3
+*.wav
+*.flac
+*.aac
+*.m4a
+*.wma
+*.aiff
+
+# Video files
+*.mp4
+*.avi
+*.mkv
+*.webm
+*.mov
+*.flv
+*.wmv
+temp_*
+
+# Media directories
+ogg/
+output/
+oPut*/
+test_output/
+
+# Python bytecode & cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+
+# System / OS
+.DS_Store
+Thumbs.db
+
+# Downloaded inference engines and model weights
+/tools/
+/models/
+.pytest_cache/

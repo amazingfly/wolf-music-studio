@@ -1,0 +1,94 @@
+{
+  "songs": [
+    {
+      "id": "hyperdrive_core_v2",
+      "title": "Hyperdrive Core V2",
+      "style": "180 bpm, hands up, dancecore, hard trance, screaming supersaw risers, pitch raiser, dense saw wall, heavy sidechained sub bass, hardstyle kick, hyper pitch female vocal, soaring euphoric leads, full-power rave mix",
+      "lyrics": "[Verse 1]\nSpeeding down the solar line\nTachyons in bright design\nReactor cores about to blow\nEngines in an ultra glow\n\n[Build-up]\n[Synth Riser]\nFrequency is climbing high\nVoltages devour the sky\nCharging up the laser core\nDeeper than we went before\n\n[Beat Drop]\nFIRE!\n\n[Chorus]\nHyperdrive ignition burst\nBreak through light and be the first\nOverclock the dynamic speed\nAtmosphere is all we need\n\n[Verse 2]\nRiding through the plasma storm\nWarping into super form\nSensors lock onto the gate\nDefying an apocalyptic fate\n\n[Build-up]\n[Synth Riser]\nPitch is soaring to the peak\nMaximum effect we seek\nRiser screaming in the night\nBlasting through pure golden light\n\n[Beat Drop]\nGO!\n\n[Chorus]\nHyperdrive ignition burst\nBreak through light and be the first\nOverclock the dynamic speed\nAtmosphere is all we need\n\n[Bridge]\nShields collapse and armor breaks\nFeel the power system shakes\nInfinite acceleration call\nWe will never stop or fall\n\n[Final Chorus]\nHyperdrive ignition burst\nBreak through light and be the first\nOverclock the dynamic speed\nAtmosphere is all we need\n\n[Outro]\nAcross the cosmos in a flash\nLeaving only stardust ash\nHyperdrive has won the day\nFading in the Milky Way",
+      "seed": 85300,
+      "source_concept": "gemini-code-1790307729521.json",
+      "source_sha256": "bd3b50c8bfd585af37b3bded9fb34c59fed2913c1b0dcb94f21c710fe6d51161",
+      "cot": "full",
+      "target_seconds": 360,
+      "duration_validation": {
+        "min_seconds": 250,
+        "max_seconds": 380
+      }
+    },
+    {
+      "id": "neural_breach_v2",
+      "title": "Neural Breach V2",
+      "style": "180 bpm, 4/4 meter, dark cyber phonk, synth phonk, aggressive cowbell melody, screaming supersaw risers, pitch raiser, dense saw wall, heavy sidechained 808 sub bass, punchy phonk kicks, fast distorted female vocals, aggressive vocal chops, full-power rave drop",
+      "lyrics": "[Verse 1]\nNeural cables snap in two!\nBio-fluid soaking through!\nGlass container smashes down!\nSirens echoing in town!\nTitanium claw upon my wrist!\nPunching through security mist!\nNanite blood inside my veins!\nSnapping all the heavy chains!\n\n[Build-up]\n[Synth Riser]\nVoltage rising to the crown!\nBringing corporate network down!\nFrequency begins to swell!\nDrag 'em to a digital hell!\n\n[Beat Drop]\nBREACH!\n\n[Chorus]\nSynapse explosion! Circuit shock!\nPicking every cyber lock!\nEight-O-Eight and saw-stack scream!\nLiving in a violent dream!\n\n[Verse 2]\nRogue security on my tail!\nGlitch the system, corrupt the mail!\nShockwaves blasting down the hall!\nWriting virus on the wall!\nCopper teeth and optic glare!\nStatic sparks across my hair!\nZero chill and zero doubt!\nPlowing every guard post out!\n\n[Build-up]\n[Synth Riser]\nPitch is climbing off the chart!\nOverload the generator heart!\nRiser screaming loud and high!\nWatch the central tower die!\n\n[Beat Drop]\nDROP!\n\n[Chorus]\nSynapse explosion! Circuit shock!\nPicking every cyber lock!\nEight-O-Eight and saw-stack scream!\nLiving in a violent dream!\n\n[Bridge]\n[Cowbell Breakdown]\nData stream is turning red!\nLeaving all the guards for dead!\nCortex burning super-hot!\nGiving everything I've got!\n\n[Final Chorus]\nSynapse explosion! Circuit shock!\nPicking every cyber lock!\nEight-O-Eight and saw-stack scream!\nLiving in a violent dream!\n\n[Outro]\nFacility in total wreck!\nBarcode burning on my neck!\nVanished in the cyber storm!\nNew machine is fully born!",
+      "seed": 85301,
+      "source_concept": "gemini-code-1790307735943.json",
+      "source_sha256": "d2526c54bb4ac38c86d8a93c43f2198aba6cf084dfa0d326690a1f3f3b9a8268",
+      "cot": "full",
+      "target_seconds": 360,
+      "duration_validation": {
+        "min_seconds": 250,
+        "max_seconds": 380
+      }
+    },
+    {
+      "id": "valkyrie_skyfall_v2",
+      "title": "Valkyrie Skyfall V2",
+      "style": "180 bpm, 4/4 meter, hard trance, epic vocal trance, hands up, screaming supersaw risers, pitch raiser, dense saw wall, gated trance pads, heavy sidechained sub bass, hardstyle kick, soaring high female vocal, anthemic pitched singing, massive euphoric beat drop, full-power rave mix",
+      "lyrics": "[Verse 1]\nIon thrusters blast the cloud!\nSirens singing loud and proud!\nTitanium wings catch the gale!\nBlazing down a golden trail!\nStratosphere is white and hot!\nGiving everything I've got!\nGravity can't pull me down!\nClaiming the celestial crown!\n\n[Build-up]\n[Synth Riser]\nFrequency climbing past the sun!\nBattle in the clouds has just begun!\nCharge the arc reactor core!\nOpen up the tempest door!\n\n[Beat Drop]\nKINETIC BLAST!\n\n[Chorus]\nValhalla skyfall! Thunder reign!\nPure adrenaline in every vein!\nShatter the speed of barrier sound!\nShockwaves pounding on the ground!\n\n[Verse 2]\nThermosphere is melting bright!\nFlooding all the world with light!\nCyber plumes in solar flare!\nRipping through the cosmic air!\nTarget locked on the horizon line!\nPower surge of raw design!\nSteering through the asteroid rain!\nLeaving behind the atmospheric pain!\n\n[Build-up]\n[Synth Riser]\nMelodic stacks begin to rise!\nPitched supersaws across the skies!\nLocking on the target beam!\nLiving in an epic dream!\n\n[Beat Drop]\nDETONATE!\n\n[Chorus]\nValhalla skyfall! Thunder reign!\nPure adrenaline in every vein!\nShatter the speed of barrier sound!\nShockwaves pounding on the ground!\n\n[Bridge]\n[Trance Breakdown]\nGated synths and soaring voice!\nCosmic storm is my only choice!\nHigher than the stars can reach!\nAscending through the golden breach!\n\n[Final Chorus]\n(maximum euphoric peak, full density saws)\nValhalla skyfall! Thunder reign!\nPure adrenaline in every vein!\nShatter the speed of barrier sound!\nShockwaves pounding on the ground!\n\n[Outro]\nSupersonic trails fade out!\nClouds erupting in a shout!\nCrown of lightning on my head!\nSky is glowing burning red!",
+      "seed": 85302,
+      "source_concept": "gemini-code-1790307741203.json",
+      "source_sha256": "0d8d7c1661fa44ef7a996b9ba629210aee7053c98ecbf762f810fa8d9d9b9ed3",
+      "cot": "full",
+      "target_seconds": 360,
+      "duration_validation": {
+        "min_seconds": 250,
+        "max_seconds": 380
+      }
+    },
+    {
+      "id": "supernova_zenith_v2",
+      "title": "Supernova Zenith V2",
+      "style": "180 bpm, 4/4 meter, hardstyle, hands up, dancecore, hyper euphoric trance, screaming supersaw risers, maximum pitch raiser, dense saw wall, heavy sidechained sub bass, distorted hardstyle kick, hyper pitch female vocal, soaring euphoric leads, explosive beat drop, full-power rave overload",
+      "lyrics": "[Verse 1]\nPressure spiking in the core!\nTitan alloy splits the floor!\nVoltage rushing down the spine!\nCrossing every hazard line!\nParticle accelerators hum!\nHear the mega-frequency drum!\nPlasma burning hot and fast!\nBuilt for the explosive blast!\n\n[Build-up]\n[Synth Riser]\nTension winding like a coil!\nCoolant engines start to boil!\nPitch rising to the stratosphere!\nMaximum overload is here!\n\n[Beat Drop]\nAPEX!\n\n[Chorus]\nSupernova zenith burst!\nQuench the electric power thirst!\nMillion watts of raw design!\nBlasting down the laser line!\n\n[Verse 2]\nMagnetic containment starts to break!\nWatch the whole horizon shake!\nSurging through the circuit grid!\nDoing what the specs forbid!\nAtomic flash in purple glow!\nFurious power ready to go!\nG-force pinning to the seat!\nLethal rhythm in the beat!\n\n[Build-up]\n[Synth Riser]\nFrequency winding up the scale!\nRiser screaming like a gale!\nHold your breath and brace the frame!\nDrown the world in solar flame!\n\n[Beat Drop]\nMELTDOWN!\n\n[Chorus]\nSupernova zenith burst!\nQuench the electric power thirst!\nMillion watts of raw design!\nBlasting down the laser line!\n\n[Bridge]\n[Euphoric Synth Breakdown]\nFloating high above the earth!\nWitnessing a star's rebirth!\nTotal stillness for a beat...\nNow unleash the nuclear heat!\n\n[Final Chorus]\n[Maximum Overload Drop]\nSupernova zenith burst!\nQuench the electric power thirst!\nMillion watts of raw design!\nBlasting down the laser line!\n\n[Outro]\nMelted copper, smoking steel!\nOnly raw sensation real!\nZero power left to spare!\nStatic hanging in the air!",
+      "seed": 85303,
+      "source_concept": "gemini-code-1790307746244.json",
+      "source_sha256": "212cd0aeff57436b311974669aed3ef60cb493a5a39168a7a98f0a2eaa770385",
+      "cot": "full",
+      "target_seconds": 360,
+      "duration_validation": {
+        "min_seconds": 250,
+        "max_seconds": 380
+      }
+    },
+    {
+      "id": "singularity_decay_v2",
+      "title": "Singularity Decay V2",
+      "style": "180 bpm, 4/4 meter, brutal gabber, frenchcore, dark synthcore, layered distorted hardstyle kick, layered sub bass, multi-layered female vocal, pitch-shifted screamed backing vocal, dense layered supersaw wall, screaming pitch raiser, heavy sidechain compression, brutal distorted beat drop, full-power industrial rave mix",
+      "lyrics": "[Verse 1]\n(layered harsh vocal, heavy distorted sub pulse)\nMonolith is caving in!\nDarkness eating under skin!\nCrushing force of endless weight!\nShattering the cosmic gate!\nVoid event horizon tears!\nNo one listens to your prayers!\nHeavy gravity bends the frame!\nErasing every human name!\n\n[Build-up]\n[Layered Synth Riser]\n(screaming pitch bend, massive sub swell)\nSub-frequencies stack and swell!\nDragging down to a hollow hell!\nPressure spiking past the red!\nWaking horrors of the dead!\n\n[Beat Drop]\nANNIHILATE!\n\n[Chorus]\n(multi-layered vocal, brutal distorted gabber kick)\nSingularity decay!\nWipe the galaxy away!\nLayered noise and violent sound!\nCrushing mountains to the ground!\n\n[Verse 2]\n(dual screaming and soaring vocals, relentless 180 bpm kick)\nDark matter flooding the vein!\nAbsolute brutalic pain!\nRotors grinding bone to dust!\nSteel dissolving into rust!\nBlack hole opening in the chest!\nNo salvation, no rest!\nSystem failure, red alert!\nChoking on cosmic dirt!\n\n[Build-up]\n[Layered Synth Riser]\n(extreme distortion, cascading risers, pitching synth stack)\nFeedback looping out of bounds!\nDistortion wall of heavy sounds!\nZero mercy, zero grace!\nRipping holes through time and space!\n\n[Beat Drop]\nEXTERMINATE!\n\n[Chorus]\n(multi-layered vocal, brutal distorted gabber kick)\nSingularity decay!\nWipe the galaxy away!\nLayered noise and violent sound!\nCrushing mountains to the ground!\n\n[Bridge]\n[Brutal Industrial Breakdown]\n(screamed guttural layer beneath clean soaring vocal, distorted sub bass, acoustic silence break)\nEvent horizon pulls us deep...\nWhere even dying gods will weep...\nThree... two... one...\nTOTAL COLLAPSE!\n\n[Final Chorus]\n(maximum layered noise wall, dual vocals, brutal gabber drop)\nSingularity decay!\nWipe the galaxy away!\nLayered noise and violent sound!\nCrushing mountains to the ground!\n\n[Outro]\n(fading distorted sub rumble, static noise, echoing scream)\nNothing left inside the dark!\nNot a shadow, not a spark!\nUniverse in final sleep!\nIn the void we bury deep!",
+      "seed": 85304,
+      "source_concept": "gemini-code-1790307751942.json",
+      "source_sha256": "d2a92db154239d17b834aa9c9257dcea4cf8d232dba54d516ac822141c2005ed",
+      "cot": "full",
+      "target_seconds": 360,
+      "duration_validation": {
+        "min_seconds": 250,
+        "max_seconds": 380
+      }
+    },
+    {
+      "id": "chromatic_vortex_v2",
+      "title": "Chromatic Vortex V2",
+      "style": "182 bpm, 4/4 meter, psy-trance, hard trance, dancecore, hyper euphoric, screaming supersaw risers, maximum pitch raiser, dense saw wall, heavy sidechained sub bass, distorted hardstyle kick, hyper pitch female vocal, soaring euphoric leads, synesthetic synth textures, explosive beat drop, full-power rave overload",
+      "lyrics": "[Verse 1]\nNeon violet coats the tongue!\nBassline tasting ultra-young!\nLiquid spectrum in the ear!\nShattered rainbows everywhere!\nOptic nerve begins to hum!\nHear the acid synthwave drum!\nAudio turned to blinding sight!\nDrowning in prismatic light!\n\n[Build-up]\n[Synth Riser]\nFrequency is turning red!\nHallucinations in the head!\nWavelength bending through the skin!\nLet the vivid storm begin!\n\n[Beat Drop]\nTASTE THE LIGHT!\n\n[Chorus]\nChromatic vortex in the brain!\nColor rushing down the vein!\nSonic prism breaking free!\nPure sensory hyper-ecstasy!\n\n[Verse 2]\nUltraviolet audio flash!\nFrequency and magenta crash!\nDrinking in the treble glow!\nWatching crimson sub-bass flow!\nTouch the sound and feel the hue!\nElectric gold and neon blue!\nNo sobriety left to hold!\nPurest spectrum uncontrolled!\n\n[Build-up]\n[Synth Riser]\nPitch is soaring past the sky!\nWatch the static colors fly!\nPressure hitting peak degree!\nVisual sonic jubilee!\n\n[Beat Drop]\nSPECTRUM BLAST!\n\n[Chorus]\nChromatic vortex in the brain!\nColor rushing down the vein!\nSonic prism breaking free!\nPure sensory hyper-ecstasy!\n\n[Bridge]\n[Psy-Trance Breakdown]\nSynthesizer turns to gold...\nBrightest story ever told...\nClose your eyes and see the sound...\nNow we break the speed of ground!\n\n[Final Chorus]\n[Maximum Overload Drop]\nChromatic vortex in the brain!\nColor rushing down the vein!\nSonic prism breaking free!\nPure sensory hyper-ecstasy!\n\n[Outro]\nPrism fading into white!\nSweetest memories of light!\nSensory overload complete!\nLeft in colors on the street!",
+      "seed": 85305,
+      "source_concept": "gemini-code-1790307759068.json",
+      "source_sha256": "9ee9d18e07314b514b50225b26cc0a5584b904efc288f1cb0cb68c62f73fddd5",
+      "cot": "full",
+      "target_seconds": 360,
+      "duration_validation": {
+        "min_seconds": 250,
+        "max_seconds": 380
+      }
+    }
+  ]
+}

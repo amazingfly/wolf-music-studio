@@ -1,0 +1,12 @@
+Wolf Music Studio
+Integrated orchestration, song library, trimming, songwriting and karaoke tools.
+
+This source snapshot contains YuE2, based on:
+https://github.com/multimodal-art-projection/YuE
+revision 0edaf2f4053ef4731334b8329834b107977f9637
+with local T4 memory/runtime changes. Its LICENSE, MODEL_LICENSE and
+THIRD_PARTY_NOTICES.md are retained under yue2/.
+
+llama.cpp, whisper.cpp, downloaded models, Essentia and other dependencies
+are not redistributed in this repository. Their respective upstream source
+and model licenses apply separately. See sources.json and docs/INSTALL.md.

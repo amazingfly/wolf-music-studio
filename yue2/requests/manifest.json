@@ -1,0 +1,13 @@
+{
+  "status": "ready",
+  "target_seconds": 360,
+  "count": 5,
+  "source_sha256": "5c2c18f295eb0edfe3b15adc4ae6bbcaf3c8e75b265451fbc1f6c0fd67ff2d25",
+  "ids": [
+    "nuclear_industrial_assault",
+    "robot_skull_crusher",
+    "high_velocity_cyber_war",
+    "total_system_collapse",
+    "pure_electronic_violence"
+  ]
+}

@@ -1,0 +1,274 @@
+{
+  "songs": [
+    {
+      "id": "cotton_candy_rush_wub_mix_v2",
+      "title": "Cotton Candy Rush (Robot-Wub Trance Remix V2)",
+      "style": "euphoric vocal trance, hands up, happy hardcore, 172 bpm, 4/4 meter, fast pounding dance kick, bright supersaw leads, glittery arpeggios, heavy sub bass, metallic robot wub bass accents on drop, dubstep growl fill accent, beautiful female vocal, soaring soprano hook, sustained vocal notes, dramatic pitch riser build-up, mindblowing euphoric bass drop immediately following vocal sustain, extended synth breakdown, peak-time rave mix",
+      "lyrics": "[intro]\n\n[instrumental]\n\n[verse]\nSweet taste on my lips tonight\nLost beneath the pink neon light\nEvery beat takes me higher now\nShow me where we go and how\n\n[pre-chorus]\nFeel the static hit the floor\nGimme more, gimme more\nTurn it up and take control\nLet the rhythm claim your soul\n\n[instrumental]\n\n[chorus]\nCotton candy high tonight\nFlying through the crystal light\nSugar, spice, and pure desire\nSet my heart on fire\n\n[synth solo]\n\n[verse]\nHeartbeat racing fast and free\nYou are all I need to see\nOne touch and I melt away\nInto the light of day\n\n[bridge]\nHigh above the clouds we soar\nGive me everything and more\n\n[instrumental breakdown]\n\n[chorus]\nCotton candy high tonight\nFlying through the crystal light\nSugar, spice, and pure desire\nSet my heart on fire\n\n[outro]\n\n[instrumental]",
+      "seed": 85300,
+      "cot": "full",
+      "target_seconds": 360,
+      "duration_validation": {
+        "min_seconds": 250,
+        "max_seconds": 380
+      },
+      "source_concept": "gemini-code-1790197310589.json",
+      "source_sha256": "60bc33aa4ef4ac5143f38034c4d08995bea0d0b428bc966950c66fbdf671f241"
+    },
+    {
+      "id": "sugar_rave_overdrive_wub_mix_v2",
+      "title": "Sugar Rave Overdrive (Complextro Wub Edit V2)",
+      "style": "euphoric vocal trance, hands up, epic rave banger, 176 bpm, 4/4 meter, driving pounding kick drum, massive supersaw walls, glittery arpeggio synths, robot wub bass fill accent, heavy neuro growl bass drop fill, soaring beautiful female vocals, crystal clear singing, pristine vocal lead, sustained vocal hooks, intense pitch tension riser, explosive drop right after vocal hook, extended synth breakdown, full-power club mix",
+      "lyrics": "[intro]\n\n[instrumental]\n\n[verse]\nSkin alive in the midnight glow\nWhere the sweetest currents flow\nBright lights flashing in my eyes\nUnderneath the open skies\n\n[pre-chorus]\nFast rhythm in my veins\nBreaking through the velvet chains\nReady for the final spark\nLighting up the dark\n\n[instrumental]\n\n[chorus]\nExplode into the sky\nSoaring on a sugar high\nFeel the magic and the heat\nDrowning in the pounding beat\n\n[instrumental breakdown]\n\n[bridge]\nTake me higher, take control\nBody, heart, and soul\n\n[instrumental]\n\n[chorus]\nExplode into the sky\nSoaring on a sugar high\nFeel the magic and the heat\nDrowning in the pounding beat\n\n[outro]\n\n[instrumental]",
+      "seed": 85301,
+      "cot": "full",
+      "target_seconds": 360,
+      "duration_validation": {
+        "min_seconds": 250,
+        "max_seconds": 380
+      },
+      "source_concept": "gemini-code-1790197310589.json",
+      "source_sha256": "60bc33aa4ef4ac5143f38034c4d08995bea0d0b428bc966950c66fbdf671f241"
+    },
+    {
+      "id": "neon_velvet_rave_yue",
+      "title": "Neon Velvet Rave (High-Flying Acid Trance Mix)",
+      "style": "euphoric vocal trance, hands up, happy hardcore, 174 bpm, 4/4 meter, fast pounding dance kick, bright supersaw leads, glittery arpeggios, resonant acid synth sequence, crystalline bell plucks, heavy sub bass, beautiful female vocal, soaring soprano hook, crystal clear vocal production, sustained vocal notes, intense pitch tension riser, massive euphoric bass drop, extended synth solo, peak-time rave mix",
+      "lyrics": "[intro]\n\n[instrumental]\n\n[verse]\nElectric currents on my skin\nFeel where the velvet nights begin\nBright lights flashing through the air\nTaking us way beyond despair\n\n[pre-chorus]\nRushing rivers in my veins\nShattering the golden chains\nHold on tight and close your eyes\nWatch the neon sky arise\n\n[instrumental]\n\n[chorus]\nNeon velvet taking over\nWe are never going sober\nFly so high and feel the heat\nDrowning in the pounding beat\n\n[synth solo]\n\n[verse]\nHeartbeat racing wild and fast\nMoments that were built to last\nCatch the rhythm, catch the spark\nLighting up the quiet dark\n\n[bridge]\nSoaring up into the light\nWe own the sky tonight\n\n[instrumental breakdown]\n\n[chorus]\nNeon velvet taking over\nWe are never going sober\nFly so high and feel the heat\nDrowning in the pounding beat\n\n[outro]\n\n[instrumental]",
+      "seed": 85302,
+      "cot": "full",
+      "target_seconds": 360,
+      "duration_validation": {
+        "min_seconds": 250,
+        "max_seconds": 380
+      },
+      "source_concept": "gemini-code-1790197609107.json",
+      "source_sha256": "ce251c3200ecc9463777b513100464dafab5b49cd28fd94197493e1e0ca6e39a"
+    },
+    {
+      "id": "electrified_heart_yue",
+      "title": "Electrified Heart (Euphoric Chime Edit)",
+      "style": "euphoric vocal trance, hands up, epic rave banger, 176 bpm, 4/4 meter, driving pounding kick drum, massive supersaw walls, glittery arpeggio synths, pitch-modulated staccato synth plucks, vocal chop synth lead, soaring beautiful female vocals, crystal clear singing, pristine vocal lead, sustained vocal hooks, dramatic pitch riser build-up, explosive drop right after vocal hook, extended synth breakdown, full-power club mix",
+      "lyrics": "[intro]\n\n[instrumental]\n\n[verse]\nSparks are flying in the dark\nEvery whisper hits a mark\nMidnight shining crystal clear\nNothing left to doubt or fear\n\n[pre-chorus]\nHigh velocity inside\nNowhere left for us to hide\nFeel the pressure start to grow\nReady for the overflow\n\n[instrumental]\n\n[chorus]\nElectrified and glowing bright\nRunning wild into the light\nSweet addiction, pure desire\nSet my spirit on fire\n\n[instrumental breakdown]\n\n[bridge]\nTake me to the very edge\nLiving on a sacred ledge\n\n[synth solo]\n\n[chorus]\nElectrified and glowing bright\nRunning wild into the light\nSweet addiction, pure desire\nSet my spirit on fire\n\n[outro]\n\n[instrumental]",
+      "seed": 85303,
+      "cot": "full",
+      "target_seconds": 360,
+      "duration_validation": {
+        "min_seconds": 250,
+        "max_seconds": 380
+      },
+      "source_concept": "gemini-code-1790197609107.json",
+      "source_sha256": "ce251c3200ecc9463777b513100464dafab5b49cd28fd94197493e1e0ca6e39a"
+    },
+    {
+      "id": "candy_laser_dreams_yue",
+      "title": "Candy Laser Dreams (High-Flying Vocal Mix)",
+      "style": "euphoric vocal trance, hands up, happy hardcore, 175 bpm, 4/4 meter, fast pounding dance kick, bright supersaw leads, glittery arpeggios, fast pitch-bent synth plucks, chime arpeggios, heavy sub bass, beautiful female vocal, soaring soprano hook, crystal clear vocal production, sustained vocal notes, dramatic tension riser build-up, massive euphoric bass drop immediately following vocal hook, extended synth breakdown, peak-time rave mix",
+      "lyrics": "[intro]\n\n[instrumental]\n\n[verse]\nPrism beams across the night\nDrowning in a sea of light\nFeel the pulse begin to rise\nSee the spark inside your eyes\n\n[pre-chorus]\nRush of magic through the floor\nLeaving everything behind for more\nTurn the volume all the way\nInto night and into day\n\n[instrumental]\n\n[chorus]\nCandy laser dreams ignite\nSoaring through the endless night\nSweet addiction, high above\nLost inside this rave of love\n\n[synth solo]\n\n[verse]\nCrystal waves upon my skin\nThis is where the stars begin\nCatch the rhythm, catch the sound\nLifting off the solid ground\n\n[bridge]\nFlying higher than the sun\nWe have only just begun\n\n[instrumental breakdown]\n\n[chorus]\nCandy laser dreams ignite\nSoaring through the endless night\nSweet addiction, high above\nLost inside this rave of love\n\n[outro]\n\n[instrumental]",
+      "seed": 85304,
+      "cot": "full",
+      "target_seconds": 360,
+      "duration_validation": {
+        "min_seconds": 250,
+        "max_seconds": 380
+      },
+      "source_concept": "gemini-code-1790197720691.json",
+      "source_sha256": "3f2c498995a933744603abbed60bc0eade3be355724d07b887aff45f5973dc08"
+    },
+    {
+      "id": "crystal_velocity_yue",
+      "title": "Crystal Velocity (Euphoric Acid Edit)",
+      "style": "euphoric vocal trance, hands up, epic rave banger, 176 bpm, 4/4 meter, driving pounding kick drum, massive supersaw walls, glittery arpeggio synths, resonant acid synth accent, vocal chop synth leads, soaring beautiful female vocals, crystal clear singing, pristine vocal lead, sustained vocal hooks, intense pitch tension riser, explosive drop right after soaring vocal hook, extended synth breakdown, full-power club mix",
+      "lyrics": "[intro]\n\n[instrumental]\n\n[verse]\nNeon rain upon the glass\nWatch the quiet moments pass\nHigh velocity tonight\nTaking off in blinding light\n\n[pre-chorus]\nElectric thunder in my chest\nLiving life at its highest and best\nFeel the tension start to break\nEvery single step we take\n\n[instrumental]\n\n[chorus]\nCrystal velocity in motion\nDrowning in a sweet ocean\nFly so high and touch the sky\nNever let this rhythm die\n\n[instrumental breakdown]\n\n[bridge]\nReach out for the glowing edge\nStanding on the sacred ledge\n\n[synth solo]\n\n[chorus]\nCrystal velocity in motion\nDrowning in a sweet ocean\nFly so high and touch the sky\nNever let this rhythm die\n\n[outro]\n\n[instrumental]",
+      "seed": 85305,
+      "cot": "full",
+      "target_seconds": 360,
+      "duration_validation": {
+        "min_seconds": 250,
+        "max_seconds": 380
+      },
+      "source_concept": "gemini-code-1790197720691.json",
+      "source_sha256": "3f2c498995a933744603abbed60bc0eade3be355724d07b887aff45f5973dc08"
+    },
+    {
+      "id": "diamond_spark_rave_yue",
+      "title": "Diamond Spark Rave (Euphoric Vocal Mix)",
+      "style": "euphoric vocal trance, hands up, happy hardcore, 174 bpm, 4/4 meter, fast pounding dance kick, bright supersaw leads, glittery arpeggios, glassy FM synth plucks, soaring vocal chops, heavy sub bass, beautiful female vocal, soaring soprano hook, crystal clear vocal production, sustained vocal notes, dramatic tension riser build-up, massive euphoric bass drop immediately following vocal hook, extended synth breakdown, peak-time rave mix",
+      "lyrics": "[intro]\n\n[instrumental]\n\n[verse]\nDiamond sparks across the floor\nEvery second asking more\nBlinding lights and rushing heat\nTaking over every beat\n\n[pre-chorus]\nRush of magic in my mind\nLeaving all the past behind\nHold your breath and feel the spark\nLighting up the heavy dark\n\n[instrumental]\n\n[chorus]\nSugar high and diamond skies\nSee the future in your eyes\nSweet addiction, pure delight\nWe will never stop tonight\n\n[synth solo]\n\n[verse]\nPrism waves upon the sound\nLifting off the solid ground\nFeel the current start to grow\nReady for the overflow\n\n[bridge]\nSoaring high above the crowd\nSinging every dream out loud\n\n[instrumental breakdown]\n\n[chorus]\nSugar high and diamond skies\nSee the future in your eyes\nSweet addiction, pure delight\nWe will never stop tonight\n\n[outro]\n\n[instrumental]",
+      "seed": 85306,
+      "cot": "full",
+      "target_seconds": 360,
+      "duration_validation": {
+        "min_seconds": 250,
+        "max_seconds": 380
+      },
+      "source_concept": "gemini-code-1790197773552.json",
+      "source_sha256": "611f0b8eadf3b85a7053cca170b2c3780b35aba7e9c43941c2bc6e6368098a33"
+    },
+    {
+      "id": "supernova_sugar_high_yue",
+      "title": "Supernova Sugar High (High-Flying Piano Edit)",
+      "style": "euphoric vocal trance, hands up, epic rave banger, 176 bpm, 4/4 meter, driving pounding kick drum, massive supersaw walls, glittery arpeggio synths, high-pitched octave lead synth, eurodance piano accents, soaring beautiful female vocals, crystal clear singing, pristine vocal lead, sustained vocal hooks, intense pitch tension riser, explosive drop right after soaring vocal hook, extended synth breakdown, full-power club mix",
+      "lyrics": "[intro]\n\n[instrumental]\n\n[verse]\nMidnight glowing bright and sweet\nPulse in sync with every beat\nCatch the rhythm, catch the flame\nNothing's ever gonna be the same\n\n[pre-chorus]\nVelocity taking hold\nPurest story ever told\nBreak the tension, break the wall\nGive this energy our all\n\n[instrumental]\n\n[chorus]\nSupernova sugar high\nReaching up into the sky\nFly so high and feel the heat\nDrowning in the pounding beat\n\n[instrumental breakdown]\n\n[bridge]\nReach out for the sacred light\nWe control the stars tonight\n\n[synth solo]\n\n[chorus]\nSupernova sugar high\nReaching up into the sky\nFly so high and feel the heat\nDrowning in the pounding beat\n\n[outro]\n\n[instrumental]",
+      "seed": 85307,
+      "cot": "full",
+      "target_seconds": 360,
+      "duration_validation": {
+        "min_seconds": 250,
+        "max_seconds": 380
+      },
+      "source_concept": "gemini-code-1790197773552.json",
+      "source_sha256": "611f0b8eadf3b85a7053cca170b2c3780b35aba7e9c43941c2bc6e6368098a33"
+    },
+    {
+      "id": "velvet_voltage_rush_yue",
+      "title": "Velvet Voltage Rush (High-Flying Vocal Mix)",
+      "style": "euphoric vocal trance, hands up, happy hardcore, 175 bpm, 4/4 meter, fast pounding dance kick, bright supersaw leads, glittery arpeggios, resonant acid bass accent, shimmering crystal chime plucks, heavy sub bass, beautiful female vocal, soaring soprano hook, crystal clear vocal production, sustained vocal notes, dramatic tension riser build-up, massive euphoric bass drop immediately following vocal hook, extended synth breakdown, peak-time rave mix",
+      "lyrics": "[intro]\n\n[instrumental]\n\n[verse]\nVelvet voltage in the air\nElectric currents everywhere\nFeel the pressure start to rise\nBlinding light behind my eyes\n\n[pre-chorus]\nRushing through the neon maze\nLost inside a pink light haze\nHold me tight and never stop\nWaiting for the world to drop\n\n[instrumental]\n\n[chorus]\nVelvet voltage taking over\nWe are never going sober\nFly so high and feel the heat\nDrowning in the pounding beat\n\n[synth solo]\n\n[verse]\nSweet addiction in my mind\nLeaving all the past behind\nCatch the rhythm, catch the spark\nLighting up the quiet dark\n\n[bridge]\nSoaring up into the sky\nSugar high that never dies\n\n[instrumental breakdown]\n\n[chorus]\nVelvet voltage taking over\nWe are never going sober\nFly so high and feel the heat\nDrowning in the pounding beat\n\n[outro]\n\n[instrumental]",
+      "seed": 85308,
+      "cot": "full",
+      "target_seconds": 360,
+      "duration_validation": {
+        "min_seconds": 250,
+        "max_seconds": 380
+      },
+      "source_concept": "gemini-code-1790198172604.json",
+      "source_sha256": "ad223bd00aa2bfe34f31bf6862f4606d3bf03d3f8384cb083cd29f22ab680017"
+    },
+    {
+      "id": "starlight_poison_high_yue",
+      "title": "Starlight Poison High (Euphoric Vocal Edit)",
+      "style": "euphoric vocal trance, hands up, epic rave banger, 176 bpm, 4/4 meter, driving pounding kick drum, massive supersaw walls, glittery arpeggio synths, pitched vocal chop leads, energetic eurodance piano chord stabs, soaring beautiful female vocals, crystal clear singing, pristine vocal lead, sustained vocal hooks, intense pitch tension riser, explosive drop right after soaring vocal hook, extended synth breakdown, full-power club mix",
+      "lyrics": "[intro]\n\n[instrumental]\n\n[verse]\nStarlight poison in my veins\nSwept away in sweet refrains\nMidnight shining crystal clear\nNothing left to doubt or fear\n\n[pre-chorus]\nHigh velocity inside\nNowhere left for us to hide\nFeel the tension start to break\nEvery single step we take\n\n[instrumental]\n\n[chorus]\nStarlight poison, sweet and bright\nRunning wild into the light\nTouch the stars and touch the sky\nSoaring on a sugar high\n\n[instrumental breakdown]\n\n[bridge]\nTake me to the sacred edge\nStanding on the highest ledge\n\n[synth solo]\n\n[chorus]\nStarlight poison, sweet and bright\nRunning wild into the light\nTouch the stars and touch the sky\nSoaring on a sugar high\n\n[outro]\n\n[instrumental]",
+      "seed": 85309,
+      "cot": "full",
+      "target_seconds": 360,
+      "duration_validation": {
+        "min_seconds": 250,
+        "max_seconds": 380
+      },
+      "source_concept": "gemini-code-1790198172604.json",
+      "source_sha256": "ad223bd00aa2bfe34f31bf6862f4606d3bf03d3f8384cb083cd29f22ab680017"
+    },
+    {
+      "id": "pink_kryptonite_high_yue",
+      "title": "Pink Kryptonite High (High-Flying Vocal Mix)",
+      "style": "euphoric vocal trance, hands up, happy hardcore, 175 bpm, 4/4 meter, fast pounding dance kick, bright supersaw leads, glittery arpeggios, shimmering bell plucks, heavy sub bass, beautiful female vocal, soaring soprano hook, crystal clear vocal production, sustained vocal notes, dramatic pitch riser build-up, massive euphoric bass drop immediately following vocal hook, extended synth breakdown, peak-time rave mix",
+      "lyrics": "[intro]\n\n[instrumental]\n\n[verse]\nPink kryptonite inside the sound\nLifting my feet off the ground\nNeon pulse and rushing wind\nWhere the wild dreams begin\n\n[pre-chorus]\nStatic buzzing on my skin\nFeel the ecstasy within\nHold on tight and close your eyes\nWatch the rave horizon rise\n\n[instrumental]\n\n[chorus]\nPink kryptonite taking over\nWe are never going sober\nFly so high into the light\nSet the dancefloor on fire tonight\n\n[synth solo]\n\n[verse]\nSweet rush racing through my head\nLiving for the words unsaid\nOne touch and I explode\nDown this candy electric road\n\n[bridge]\nSoaring up beyond the skies\nSee the passion in your eyes\n\n[instrumental breakdown]\n\n[chorus]\nPink kryptonite taking over\nWe are never going sober\nFly so high into the light\nSet the dancefloor on fire tonight\n\n[outro]\n\n[instrumental]",
+      "seed": 85310,
+      "cot": "full",
+      "target_seconds": 360,
+      "duration_validation": {
+        "min_seconds": 250,
+        "max_seconds": 380
+      },
+      "source_concept": "gemini-code-1790198545625.json",
+      "source_sha256": "d2c857283e59dccb687845b8f07306692a66d2e9274ea1f2b4ab001ac8ff2b98"
+    },
+    {
+      "id": "hypernova_sweetness_yue",
+      "title": "Hypernova Sweetness (Euphoric Acid Trance Edit)",
+      "style": "euphoric vocal trance, hands up, epic rave banger, 177 bpm, 4/4 meter, driving pounding kick drum, massive supersaw walls, glittery arpeggio synths, resonant acid synth sequence, vocal chop synth lead, soaring beautiful female vocals, crystal clear singing, pristine vocal lead, sustained vocal hooks, intense pitch tension riser, explosive drop right after soaring vocal hook, extended synth breakdown, full-power club mix",
+      "lyrics": "[intro]\n\n[instrumental]\n\n[verse]\nHypernova in the sky\nWatch the glowing colors fly\nSweet addiction in the air\nElectric magic everywhere\n\n[pre-chorus]\nPounding drumbeat in my chest\nNever stopping, never rest\nFeel the energy collide\nNowhere left for us to hide\n\n[instrumental]\n\n[chorus]\nHypernova sweetness glowing\nFeel the river overflowing\nReach the top and touch the stars\nBreak through all the golden bars\n\n[instrumental breakdown]\n\n[bridge]\nTake my hand and fly away\nInto night and into day\n\n[synth solo]\n\n[chorus]\nHypernova sweetness glowing\nFeel the river overflowing\nReach the top and touch the stars\nBreak through all the golden bars\n\n[outro]\n\n[instrumental]",
+      "seed": 85311,
+      "cot": "full",
+      "target_seconds": 360,
+      "duration_validation": {
+        "min_seconds": 250,
+        "max_seconds": 380
+      },
+      "source_concept": "gemini-code-1790198545625.json",
+      "source_sha256": "d2c857283e59dccb687845b8f07306692a66d2e9274ea1f2b4ab001ac8ff2b98"
+    },
+    {
+      "id": "atomic_candy_fever_yue",
+      "title": "Atomic Candy Fever (High-Flying Vocal Mix)",
+      "style": "euphoric vocal trance, hands up, happy hardcore, 176 bpm, 4/4 meter, fast pounding dance kick, bright supersaw leads, glittery arpeggios, high-pitched vocal chop lead, shimmering crystal bell plucks, heavy sub bass, beautiful female vocal, soaring soprano hook, crystal clear vocal production, sustained vocal notes, dramatic tension riser build-up, massive euphoric bass drop immediately following vocal hook, extended synth breakdown, peak-time rave mix",
+      "lyrics": "[intro]\n\n[instrumental]\n\n[verse]\nElectric rush beneath the skin\nFeel where atomic nights begin\nBright lights flashing through the air\nTaking us way beyond despair\n\n[pre-chorus]\nFlash of light across the room\nShattering the quiet gloom\nHold on tight and close your eyes\nWatch the rave horizon rise\n\n[instrumental]\n\n[chorus]\nAtomic candy high tonight\nSoaring through the neon light\nPure addiction, sweet desire\nSet my heart on fire\n\n[synth solo]\n\n[verse]\nPrism waves upon my face\nFloating through all time and space\nCatch the rhythm, catch the spark\nLighting up the quiet dark\n\n[bridge]\nFlying higher than before\nGive me everything and more\n\n[instrumental breakdown]\n\n[chorus]\nAtomic candy high tonight\nSoaring through the neon light\nPure addiction, sweet desire\nSet my heart on fire\n\n[outro]\n\n[instrumental]",
+      "seed": 85312,
+      "cot": "full",
+      "target_seconds": 360,
+      "duration_validation": {
+        "min_seconds": 250,
+        "max_seconds": 380
+      },
+      "source_concept": "gemini-code-1790198693343.json",
+      "source_sha256": "97f79160a64ad2a6ad7fc9bd2bbd53034d3be3d23a68badcdabea07803f6498a"
+    },
+    {
+      "id": "sugar_blitz_delirium_yue",
+      "title": "Sugar Blitz Delirium (Euphoric Acid Edit)",
+      "style": "euphoric vocal trance, hands up, epic rave banger, 178 bpm, 4/4 meter, driving pounding kick drum, massive supersaw walls, glittery arpeggio synths, resonant acid synth sequence, pitch-bent synth stabs, soaring beautiful female vocals, crystal clear singing, pristine vocal lead, sustained vocal hooks, intense pitch tension riser, explosive drop right after soaring vocal hook, extended synth breakdown, full-power club mix",
+      "lyrics": "[intro]\n\n[instrumental]\n\n[verse]\nSugar blitz inside my head\nDriven where angels fear to tread\nMidnight shining crystal clear\nNothing left to doubt or fear\n\n[pre-chorus]\nFeel the tension start to swell\nBreaking through the magic spell\nVelocity is taking hold\nPurest story ever told\n\n[instrumental]\n\n[chorus]\nSugar blitz delirium\nListen to the pounding drum\nTouch the stars and touch the sky\nSoaring on a sugar high\n\n[instrumental breakdown]\n\n[bridge]\nTake me to the very crest\nLiving at our highest and best\n\n[synth solo]\n\n[chorus]\nSugar blitz delirium\nListen to the pounding drum\nTouch the stars and touch the sky\nSoaring on a sugar high\n\n[outro]\n\n[instrumental]",
+      "seed": 85313,
+      "cot": "full",
+      "target_seconds": 360,
+      "duration_validation": {
+        "min_seconds": 250,
+        "max_seconds": 380
+      },
+      "source_concept": "gemini-code-1790198693343.json",
+      "source_sha256": "97f79160a64ad2a6ad7fc9bd2bbd53034d3be3d23a68badcdabea07803f6498a"
+    },
+    {
+      "id": "electric_sugar_voltage_yue",
+      "title": "Electric Sugar Voltage (High-Flying Vocal Mix)",
+      "style": "euphoric vocal trance, hands up, happy hardcore, 175 bpm, 4/4 meter, fast pounding dance kick, bright supersaw leads, glittery arpeggios, pitch-modulated synth plucks, shimmering crystal chime leads, heavy sub bass, beautiful female vocal, soaring soprano hook, crystal clear vocal production, sustained vocal notes, dramatic tension riser build-up, massive euphoric bass drop immediately following vocal hook, extended synth breakdown, peak-time rave mix",
+      "lyrics": "[intro]\n\n[instrumental]\n\n[verse]\nWhite light burning through the dark\nCatching every electric spark\nPounding heart and rushing blood\nDrowning in a golden flood\n\n[pre-chorus]\nFeel the frequency collide\nSweeping us away inside\nHold your breath and count to three\nSet the wild energy free\n\n[instrumental]\n\n[chorus]\nElectric sugar voltage high\nIgnite the neon summer sky\nSweet euphoria, pure delight\nWe are burning through the night\n\n[synth solo]\n\n[verse]\nPrism flash upon my eyes\nUnderneath the rave skies\nFeel the rhythm take control\nLifting up my body and soul\n\n[bridge]\nTouch the stars and never stop\nWaiting for the bass to drop\n\n[instrumental breakdown]\n\n[chorus]\nElectric sugar voltage high\nIgnite the neon summer sky\nSweet euphoria, pure delight\nWe are burning through the night\n\n[outro]\n\n[instrumental]",
+      "seed": 85314,
+      "cot": "full",
+      "target_seconds": 360,
+      "duration_validation": {
+        "min_seconds": 250,
+        "max_seconds": 380
+      },
+      "source_concept": "gemini-code-1790198769527.json",
+      "source_sha256": "7d1551edaeaeea31d24f97011f86d44d40e31c456214504f4dc27bf49a40076e"
+    },
+    {
+      "id": "neon_candy_overdrive_yue",
+      "title": "Neon Candy Overdrive (Euphoric Acid Edit)",
+      "style": "euphoric vocal trance, hands up, epic rave banger, 178 bpm, 4/4 meter, driving pounding kick drum, massive supersaw walls, glittery arpeggio synths, resonant acid synth stabs, fast synth pluck arpeggios, soaring beautiful female vocals, crystal clear singing, pristine vocal lead, sustained vocal hooks, intense pitch tension riser, explosive drop right after soaring vocal hook, extended synth breakdown, full-power club mix",
+      "lyrics": "[intro]\n\n[instrumental]\n\n[verse]\nCandy core and neon rain\nFloating on a higher plane\nHigh velocity and heat\nMatching every pounding beat\n\n[pre-chorus]\nRushing waves inside my mind\nLeaving shadow worlds behind\nReady for the sudden spark\nLighting up the silent dark\n\n[instrumental]\n\n[chorus]\nNeon candy overdrive\nFeel the rhythm come alive\nFly so high into the light\nSet the dancefloor on fire tonight\n\n[instrumental breakdown]\n\n[bridge]\nReach out for the sacred flame\nWe will never be the same\n\n[synth solo]\n\n[chorus]\nNeon candy overdrive\nFeel the rhythm come alive\nFly so high into the light\nSet the dancefloor on fire tonight\n\n[outro]\n\n[instrumental]",
+      "seed": 85315,
+      "cot": "full",
+      "target_seconds": 360,
+      "duration_validation": {
+        "min_seconds": 250,
+        "max_seconds": 380
+      },
+      "source_concept": "gemini-code-1790198769527.json",
+      "source_sha256": "7d1551edaeaeea31d24f97011f86d44d40e31c456214504f4dc27bf49a40076e"
+    },
+    {
+      "id": "glitter_fever_rush_yue",
+      "title": "Glitter Fever Rush (High-Flying Vocal Mix)",
+      "style": "euphoric vocal trance, hands up, happy hardcore, 176 bpm, 4/4 meter, fast pounding dance kick, bright supersaw leads, glittery arpeggios, glassy FM synth plucks, pitched-up vocal chop leads, heavy sub bass, beautiful female vocal, soaring soprano hook, crystal clear vocal production, sustained vocal notes, dramatic tension riser build-up, massive euphoric bass drop immediately following vocal hook, extended synth breakdown, peak-time rave mix",
+      "lyrics": "[intro]\n\n[instrumental]\n\n[verse]\nGolden static on the floor\nEvery heart beat wanting more\nBlinding flash of crystal white\nTaking off into the night\n\n[pre-chorus]\nRush of magic in my veins\nBreaking through the glass and rain\nHold your breath and feel the spark\nLighting up the heavy dark\n\n[instrumental]\n\n[chorus]\nGlitter fever taking over\nWe are never going sober\nFly so high into the sky\nOn a sugar high tonight\n\n[synth solo]\n\n[verse]\nPrism waves across the air\nRushing wild without a care\nFeel the frequency take hold\nStories that were never told\n\n[bridge]\nHigher than the stars above\nDrowning in this rave of love\n\n[instrumental breakdown]\n\n[chorus]\nGlitter fever taking over\nWe are never going sober\nFly so high into the sky\nOn a sugar high tonight\n\n[outro]\n\n[instrumental]",
+      "seed": 85316,
+      "cot": "full",
+      "target_seconds": 360,
+      "duration_validation": {
+        "min_seconds": 250,
+        "max_seconds": 380
+      },
+      "source_concept": "gemini-code-1790198847755.json",
+      "source_sha256": "7be96bff3064d1f6c7dd59e9ee39a737726c4c2aeecfa092cc672f209811f8ff"
+    },
+    {
+      "id": "velvet_euphoria_overdrive_yue",
+      "title": "Velvet Euphoria Overdrive (Euphoric Acid Edit)",
+      "style": "euphoric vocal trance, hands up, epic rave banger, 178 bpm, 4/4 meter, driving pounding kick drum, massive supersaw walls, glittery arpeggio synths, resonant acid synth sequence, fast synth pluck arpeggios, eurodance piano accents, soaring beautiful female vocals, crystal clear singing, pristine vocal lead, sustained vocal hooks, intense pitch tension riser, explosive drop right after soaring vocal hook, extended synth breakdown, full-power club mix",
+      "lyrics": "[intro]\n\n[instrumental]\n\n[verse]\nVelvet shadows melt away\nTurning midnight into day\nHigh velocity and heat\nMatching every pounding beat\n\n[pre-chorus]\nElectric current in my soul\nTaking back supreme control\nFeel the tension start to break\nEvery single step we take\n\n[instrumental]\n\n[chorus]\nVelvet euphoria glowing bright\nDrowning in the neon light\nTouch the stars and touch the sky\nSoaring on a sugar high\n\n[instrumental breakdown]\n\n[bridge]\nTake me to the sacred edge\nStanding on the highest ledge\n\n[synth solo]\n\n[chorus]\nVelvet euphoria glowing bright\nDrowning in the neon light\nTouch the stars and touch the sky\nSoaring on a sugar high\n\n[outro]\n\n[instrumental]",
+      "seed": 85317,
+      "cot": "full",
+      "target_seconds": 360,
+      "duration_validation": {
+        "min_seconds": 250,
+        "max_seconds": 380
+      },
+      "source_concept": "gemini-code-1790198847755.json",
+      "source_sha256": "7be96bff3064d1f6c7dd59e9ee39a737726c4c2aeecfa092cc672f209811f8ff"
+    }
+  ]
+}

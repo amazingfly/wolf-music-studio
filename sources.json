@@ -1,0 +1,20 @@
+{
+  "sources": {
+    "yue2": {
+      "repository": "https://github.com/multimodal-art-projection/YuE.git",
+      "revision": "0edaf2f4053ef4731334b8329834b107977f9637"
+    },
+    "visualizer": {
+      "local_revision": "983fb1c2c78ed3510b3b370322bc0425936790c1"
+    },
+    "llama_cpp": {
+      "repository": "https://github.com/ggml-org/llama.cpp.git",
+      "revision": "0c1e57098bba43ac29e6e3b677cdceebdd22334f"
+    },
+    "whisper_cpp": {
+      "repository": "https://github.com/ggml-org/whisper.cpp.git",
+      "revision": "d09f61a708f3487afa956ff578e60eae5e7a233c"
+    }
+  },
+  "notes": "Source-only snapshot including local modifications. Upstream licenses retained. Downloaded engines, weights, credentials and generated media are excluded."
+}

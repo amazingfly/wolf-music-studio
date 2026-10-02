@@ -1,0 +1,7 @@
+# CTC forced_align is available through torchaudio 2.8; 2.9 removes it.
+torch==2.8.0
+torchaudio==2.8.0
+demucs==4.1.0
+numpy>=1.26,<3
+Pillow>=10
+soundfile>=0.12

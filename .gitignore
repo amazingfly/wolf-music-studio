@@ -1,0 +1,63 @@
+# Credentials and local configuration
+.env
+.env.*
+!.env.example
+local/
+*.pem
+*.key
+*rclone.conf
+*oauth*.json
+*credentials*.json
+# Runtime state and generated datasets
+**/queue/**
+**/outputs/**
+!yue2/outputs/
+!yue2/outputs/trackTags.py
+**/output/
+**/runs/
+**/comparison/
+**/listening_ratings/
+**/master_database.json
+**/audio_database.json
+*.sqlite3*
+*.log
+*.pid
+*_state.json
+*_runtime.json
+# Downloaded inference engines, models and binary assets
+/gemma/llama.cpp/
+/visualizer/tools/
+**/models/
+*.gguf
+*.safetensors
+*.ckpt
+*.pt
+*.pth
+*.pb
+*.bin
+*.onnx
+*.whl
+*.partial
+# Audio/video are generated artifacts, not source
+*.flac
+*.ogg
+*.wav
+*.mp3
+*.mp4
+*.avi
+*.mkv
+*.webm
+*.mov
+# Environments and caches
+**/.venv*/
+**/venv/
+**/__pycache__/
+*.py[cod]
+**/.pytest_cache/
+**/.cache/
+.coverage
+htmlcov/
+build/
+dist/
+*.egg-info/
+.DS_Store

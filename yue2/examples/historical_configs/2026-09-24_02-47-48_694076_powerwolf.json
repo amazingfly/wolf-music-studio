@@ -1,0 +1,124 @@
+{
+  "songs": [
+    {
+      "id": "celestial_breach_v2",
+      "title": "Celestial Breach V2",
+      "style": "happy hardcore, dancecore, hands up, 174 bpm, 4/4 meter, heavy hardstyle kick layers, layered sub bass, distorted supersaw leads, aggressive laser arpeggios, euphoric female vocal, pitched vocal delivery, soaring anthemic hooks, distorted synth breakdown, full-power club mix",
+      "lyrics": "[Verse 1]\n(clear, high-energy)\nBattleships glide through silent dark!\nCrimson beams leave a burning mark!\nCyan lances cut the night!\nSpace ignites in blinding light!\nDistant nukes like dying stars!\nGleaming steel and plasma scars!\nChaos blooming pure and bright!\nMost magnificent sight!\n\n[Pre-Chorus]\n(building distorted synth lift)\nBoarding pod locked on target hull!\nPlasma torch through the titan's skull!\nForce the airlock! Step inside!\nNowhere for the machines to hide!\n\n[Chorus]\n(soaring pitched-up vocal, heavy hardstyle kick)\nCelestial breach! Power core target!\nStarfire burning across the dark!\nBeautiful war! Supernova glow!\nWatch the enemy titan blow!\n\n[Verse 2]\n(fast, aggressive flow)\nMetal droids fall to the floor!\nFighting through to the engine core!\nAntimatter charges set to spark!\nCountdown ticking in the dark!\nPure destruction, cold and sweet!\nEngine room under our feet!\nBeautiful flame! Glorious sight!\nShining through eternal night!\n\n[Bridge]\n(euphoric breakdown, soaring piano and heavy distorted leads)\nThrusters maxed! Launch the pod!\nEscaping the wrath of a metal god!\nHull ruptures! Reactor breaks!\nSilent shockwave space awakes!\n\n[Chorus]\n(soaring pitched-up vocal, full power)\nCelestial breach! Power core target!\nStarfire burning across the dark!\nBeautiful war! Supernova glow!\nWatch the enemy titan blow!\n\n[Final Chorus]\n(maximum euphoric energy, layered bass)\nCelestial breach! Power core target!\nStarfire burning across the dark!\nBeautiful war! Supernova glow!\nWatch the enemy titan blow!\n\n[Outro]\n(fading fast synth lead, explosion echo)\nShockwave hits! Pod survives!\nBrightest flash of our lives!\nTitan burns in golden light!\nMost beautiful night!",
+      "seed": 85300,
+      "source_concept": "gemini-code-1790226218374.json",
+      "source_sha256": "8e86f942111215c3628854a26168e355ec9be076eaffbf4fb6b8ede65755d332",
+      "cot": "full",
+      "target_seconds": 360,
+      "duration_validation": {
+        "min_seconds": 250,
+        "max_seconds": 380
+      }
+    },
+    {
+      "id": "orbital_ignition_v2",
+      "title": "Orbital Ignition V2",
+      "style": "happy hardcore, hard trance, dancecore, 175 bpm, 4/4 meter, driving hardstyle kick, reverse bass, screaming supersaw leads, gated trance pads, distorted sub bass, euphoric female vocal, pitched vocal delivery, soaring anthemic chorus, hard trance breakdown, full-power rave mix",
+      "lyrics": "[Verse 1]\n(clear, high-energy drop)\nLeaping through the airlock door!\nAtmosphere begins to roar!\nShattered satellites in flames!\nGolden arcs with silver names!\nCloud deck burning violet-bright!\nScreaming through the neon night!\nFriction shockwaves turn to gold!\nGrandest spectacle untold!\n\n[Pre-Chorus]\n(building reverse bass and acid synth)\nFreefall through the laser grid!\nDoing what the empire forbid!\nThrusters lock onto the spire!\nFalling through a sea of fire!\n\n[Chorus]\n(soaring pitched-up vocal, driving hardstyle kick)\nOrbital ignition! Sky ablaze!\nBlinding flash through cosmic haze!\nGlorious fall! Terminal speed!\nLight the atmosphere we need!\n\n[Verse 2]\n(fast hard-trance rhythm)\nMegacity burning deep below!\nEmerald plasma grid aglow!\nTarget spire in my sight!\nSpear of steel through blinding light!\nInsert key and prime the core!\nPlanetary engines roar!\nPure ascension! Heavenly spark!\nIlluminating all the dark!\n\n[Bridge]\n(euphoric hard trance breakdown, gated synth pads)\nSpire detonate! Core react!\nPlanetary shield intact!\nKinetic wings deploy and rise!\nChasing sunrise through the skies!\n\n[Chorus]\n(soaring pitched-up vocal, full power)\nOrbital ignition! Sky ablaze!\nBlinding flash through cosmic haze!\nGlorious fall! Terminal speed!\nLight the atmosphere we need!\n\n[Final Chorus]\n(maximum energy, screaming supersaws)\nOrbital ignition! Sky ablaze!\nBlinding flash through cosmic haze!\nGlorious fall! Terminal speed!\nLight the atmosphere we need!\n\n[Outro]\n(fading reverse bass, echoing synth lead)\nClouds ignite! Dawn breaks free!\nPure sky for eternity!\nPlanet wakes in golden light!\nMost magnificent flight!",
+      "seed": 85301,
+      "source_concept": "gemini-code-1790226225369.json",
+      "source_sha256": "2f313ed75db60545197bb2c395cfbd98d0335d25cd7aefa4262f25693cfb1843",
+      "cot": "full",
+      "target_seconds": 360,
+      "duration_validation": {
+        "min_seconds": 250,
+        "max_seconds": 380
+      }
+    },
+    {
+      "id": "shadow_protocol_v2",
+      "title": "Shadow Protocol V2",
+      "style": "dark synthpop, electroclash, cyber industrial, darkwave, 138 bpm, 4/4 meter, heavy sidechained sub bass, distorted analog synths, dark supersaw chords, cold metallic percussion, soaring female vocal, aggressive vocal processing, dark atmospheric pads, full-power club mix",
+      "lyrics": "[Verse 1]\n(cold, precise vocal)\nInfiltrate the neon grid\nFind where cyber-minds are hid\nObsidian towers slice the rain\nData flowing like a vein\nGhost in wires, silent stride\nWhere the frozen synths reside\nCrimson lasers sweep the floor\nBreaching through the central door\n\n[Pre-Chorus]\n(building distorted synth, heavy bass pulse)\nOverclock the mainframe heart\nTear the citadel apart\nOne code stroke to unleash the storm\nWatch the digital reborn\n\n[Chorus]\n(soaring vocal, dark heavy supersaw wall)\nShadow protocol ignites\nLighting up the cyberpunk nights\nShatter every optic lens\nWhere the human spirit ends\n\n[Verse 2]\n(dark, rhythmic delivery)\nChrome Sentinels turn to dust\nMechanized elite in rust\nOverride the orbital strike\nBlasting through the server dike\nPrism energy unfolds\nPurest electric blue and gold\nSiphoning the mega-power grid\nExposing what the tyrants hid\n\n[Bridge]\n(electroclash breakdown, pulsating analog synth solo)\nData surge! Systems fry!\nMonitors reflect the sky!\nSignal spreading everywhere!\nRevolutions in the air!\n\n[Chorus]\n(soaring vocal, full-power dark synth pulse)\nShadow protocol ignites\nLighting up the cyberpunk nights\nShatter every optic lens\nWhere the human spirit ends\n\n[Final Chorus]\n(maximum energy, dual vocal layering)\nShadow protocol ignites\nLighting up the cyberpunk nights\nShatter every optic lens\nWhere the human spirit ends\n\n[Outro]\n(fading sidechained bass, echoing glitch leads)\nServers melt, the city sleeps\nOnly code the phantom keeps\nGrid is dark, the skyline dead\nNeon crown upon my head",
+      "seed": 85302,
+      "source_concept": "gemini-code-1790226230771.json",
+      "source_sha256": "7295508341c6708166647946cc529a22a67c08c59a96e251cb582703719e5f34",
+      "cot": "full",
+      "target_seconds": 360,
+      "duration_validation": {
+        "min_seconds": 250,
+        "max_seconds": 380
+      }
+    },
+    {
+      "id": "prism_matrix_v2",
+      "title": "Prism Matrix V2",
+      "style": "futurepop, dark synthpop, electrowave, cyber trance, 138 bpm, 4/4 meter, driving four-on-the-floor, pulsating sub bass, shimmering arpeggios, cascading supersaw leads, trippy vocal processing, soaring female vocal, laser breakdown, full-power club mix",
+      "lyrics": "[Verse 1]\n(trippy, echoing vocal)\nFolded mirrors in a line!\nEndless faces intertwined!\nGlass on glass and angles tight!\nMultiplying in the light!\nTripping through the infinite frame!\nEvery ghost without a name!\nVertigo begins to spin!\nReality is wearing thin!\n\n[Pre-Chorus]\n(building shimmering arpeggios)\nPrism feedback in my mind!\nLeaving solid ground behind!\nTake the illusion to the floor!\nOpen up the fractal door!\n\n[Chorus]\n(soaring vocal, cascading supersaws)\nMirror matrix, endless view!\nThousand versions made anew!\nLaser beams across the haze!\nDancing through the crystal maze!\n\n[Verse 2]\n(rhythmic, pulse delivery)\nBeams reflect from every wall!\nEchoes bouncing through the hall!\nStrobes collide with split control!\nHallucinations claim the soul!\nMillion eyes beneath the green!\nBrightest optics ever seen!\nLost inside dynamic space!\nEvery version of my face!\n\n[Bridge]\n(synth breakdown, sweeping filter build)\nBending angles, glass and chrome!\nFractals calling me back home!\nTurn the strobes up to the peak!\nFound the vision that I seek!\n\n[Chorus]\n(soaring vocal, full power)\nMirror matrix, endless view!\nThousand versions made anew!\nLaser beams across the haze!\nDancing through the crystal maze!\n\n[Final Chorus]\n(maximum energy, layered vocal delay)\nMirror matrix, endless view!\nThousand versions made anew!\nLaser beams across the haze!\nDancing through the crystal maze!\n\n[Outro]\n(fading laser synths, echoing vocal decay)\nFractured angles fade away!\nStrobe lights turn the dark to day!\nEndless echoes, crystal clear!\nLost inside the atmosphere!",
+      "seed": 85303,
+      "source_concept": "gemini-code-1790226235058.json",
+      "source_sha256": "6442a70e4788201a257bc9b7110ec1aad64a730e757e1cd6da828865618833fe",
+      "cot": "full",
+      "target_seconds": 360,
+      "duration_validation": {
+        "min_seconds": 250,
+        "max_seconds": 380
+      }
+    },
+    {
+      "id": "spectral_circuit_v2",
+      "title": "Spectral Circuit V2",
+      "style": "synth phonk, drift phonk, electro phonk, 155 bpm, 4/4 meter, heavy 808 sub bass, phonk cowbell lead, distorted analog synths, punchy phonk kicks, haunting atmospheric pads, fast rhythmic female vocal, energetic vocal chops, dark driving club mix",
+      "lyrics": "[Verse 1]\n(fast, driving vocal delivery)\nPhantom engines start to roar!\nTires screaming on the floor!\nSpectral shadows cut the lane!\nSpeeding through the midnight rain!\nGhostly neon on the street!\nHaunted by a faster beat!\nEight-O-Eight is shaking ground!\nSpeed of darkness, speed of sound!\n\n[Pre-Chorus]\n(building cowbell pulse, distorted bass build)\nHaunted circuit, midnight race!\nPhantom riders take their place!\nRed tail lights in phantom mist!\nDriving where the ghosts exist!\n\n[Chorus]\n(fast synthy phonk lead, heavy 808 drop)\nSpectral circuit, phantom drive!\nOnly feeling so alive!\nCowbells ringing in the dark!\nMidnight burning like a spark!\n\n[Verse 2]\n(rhythmic, aggressive phonk flow)\nTachometer in the red!\nRacing spirits of the dead!\nAsphalt burning, engine glow!\nFast-lane shadow overflow!\nMidnight highway, zero fear!\nHaunted spirits drawing near!\nShift the gear and smash the gas!\nWatch the ghostly city pass!\n\n[Bridge]\n(eerie synth breakdown, heavy sidechain side-to-side chop)\nHaunting frequency in the night!\nPhantom cars in violet light!\nFeel the synthwave catch the breeze!\nSpirits floating through the trees!\n\n[Chorus]\n(fast synthy phonk lead, heavy 808 drop)\nSpectral circuit, phantom drive!\nOnly feeling so alive!\nCowbells ringing in the dark!\nMidnight burning like a spark!\n\n[Final Chorus]\n(maximum energy, layered vocal chops, loud cowbell)\nSpectral circuit, phantom drive!\nOnly feeling so alive!\nCowbells ringing in the dark!\nMidnight burning like a spark!\n\n[Outro]\n(fading cowbell melody, engine hum, echoing vocals)\nTires fading in the smoke!\nPhantom driver never spoke!\nHighway quiet, engine cold!\nHaunting story left untold!",
+      "seed": 85304,
+      "source_concept": "gemini-code-1790226240382.json",
+      "source_sha256": "70768f754f09dab6deef17e47e6e0997ad778457dd93e18e86e278015013f0c8",
+      "cot": "full",
+      "target_seconds": 360,
+      "duration_validation": {
+        "min_seconds": 250,
+        "max_seconds": 380
+      }
+    },
+    {
+      "id": "neon_catacombs_v2",
+      "title": "Neon Catacombs V2",
+      "style": "synth phonk, electro phonk, dark synthwave, 156 bpm, 4/4 meter, punchy 808 bass, melody synth cowbell lead, fast rhythmic female vocal, haunted rave atmosphere, distorted supersaw stabs, energetic vocal chops, full-power club mix",
+      "lyrics": "[Verse 1]\n(fast, driving vocal delivery)\nUnderground stone walls decay!\nLasers cut the dark away!\nNeon skeletons on the floor!\nSpirits bursting through the door!\nBass vibration shakes the crypt!\nAncient seals are fully ripped!\nGhostly crowd is jumping high!\nRave until the specters die!\n\n[Pre-Chorus]\n(building synthy cowbell pulse)\nFeel the pulse inside the grave!\nWicked frequency we crave!\nStrobe lights flashing green and red!\nWake the spirits of the dead!\n\n[Chorus]\n(fast synth phonk lead, heavy 808 drop)\nNeon catacombs ignite!\nHaunted party through the night!\nSynth bells ringing in the hall!\nDancing on the tombstone wall!\n\n[Verse 2]\n(rhythmic, bouncy phonk flow)\nFog machine is breathing smoke!\nSupernatural bass awoke!\nGrave-dirt flying in the air!\nGlitter flashing everywhere!\nPoltergeists upon the stage!\nRaving in a phantom cage!\nTurn the frequency to ten!\nNever going back again!\n\n[Bridge]\n(haunting synth breakdown, sidechained vocal chops)\nEchoes bouncing off the bone!\nThis is where we claim the throne!\nSpooky vibes and heavy kick!\nSpirits dancing double-quick!\n\n[Chorus]\n(fast synth phonk lead, heavy 808 drop)\nNeon catacombs ignite!\nHaunted party through the night!\nSynth bells ringing in the hall!\nDancing on the tombstone wall!\n\n[Final Chorus]\n(maximum energy, layered vocal chops, loud cowbell)\nNeon catacombs ignite!\nHaunted party through the night!\nSynth bells ringing in the hall!\nDancing on the tombstone wall!\n\n[Outro]\n(fading synth melody, echoing decay)\nSunrise breaks the spooky spell!\nGhosts retreat into the shell!\nCatacombs are silent now!\nParty ends with final bow!",
+      "seed": 85305,
+      "source_concept": "gemini-code-1790226245034.json",
+      "source_sha256": "436f2d4b44118ef1f322618da937bfc1f8825e2b724471f1b62ed64a2d3f49bc",
+      "cot": "full",
+      "target_seconds": 360,
+      "duration_validation": {
+        "min_seconds": 250,
+        "max_seconds": 380
+      }
+    },
+    {
+      "id": "glitch_pixie_arcade_v2",
+      "title": "Glitch Pixie Arcade V2",
+      "style": "synth phonk, cyber phonk, electro phonk, deathpixie style, 158 bpm, 4/4 meter, punchy 808 bass, glitchy melodic synth cowbell, distorted supersaws, fast female vocals, playful aggressive vocal delivery, haunted cyber rave, full-power club mix",
+      "lyrics": "[Verse 1]\n(fast, glitchy vocal)\nRummaging the ruined arcade!\nWires sparking, battery made!\nDead neon flickers blue!\nPower surging right on through!\nDusty screens begin to glow!\nDigital ghosts put on a show!\nScavenger girl in iron boots!\nTrading salvage for the roots!\n\n[Pre-Chorus]\n(building 808 cowbell pulse)\nRogue drones circling outside!\nNowhere left for them to hide!\nHit the pad, initialize!\nOverload their optic eyes!\n\n[Chorus]\n(fast synthy phonk lead, heavy 808 drop)\nGlitch pixie in the wasteland night!\nArcade burning purple-bright!\nSynth-cowbells blasting high!\nDancing while the killer drones die!\n\n[Verse 2]\n(rhythmic, hyperpop-phonk flow)\nHigh score flash across my visor!\nNo drone sniper is any wiser!\nSparks fly off my cyber-arm!\nWasteland cute with lethal charm!\nDance pad stomping 158!\nRewriting my apocalyptic fate!\nStatic screaming in the air!\nGlitchy ribbons in my hair!\n\n[Bridge]\n(eerie synth breakdown, vocal chops)\nCircuit overload complete!\nShockwave spreading down the street!\nRogue machines all fall apart!\nElectric pulse inside my heart!\n\n[Chorus]\n(fast synthy phonk lead, heavy 808 drop)\nGlitch pixie in the wasteland night!\nArcade burning purple-bright!\nSynth-cowbells blasting high!\nDancing while the killer drones die!\n\n[Final Chorus]\n(maximum energy, layered vocal chops)\nGlitch pixie in the wasteland night!\nArcade burning purple-bright!\nSynth-cowbells blasting high!\nDancing while the killer drones die!\n\n[Outro]\n(fading synth melody, glitch decay)\nGame over on the broken screen!\nDeadliest girl they've ever seen!\nCyber-arcade going dark!\nWasteland left without a spark!",
+      "seed": 85306,
+      "source_concept": "gemini-code-1790226248721.json",
+      "source_sha256": "5a9dc20666c2da196a57bb2a87188f48e32fc101158675bf01a55bb1a3e2db40",
+      "cot": "full",
+      "target_seconds": 360,
+      "duration_validation": {
+        "min_seconds": 250,
+        "max_seconds": 380
+      }
+    },
+    {
+      "id": "plasma_pulse_v2",
+      "title": "Plasma Pulse V2",
+      "style": "synth phonk, cyber electro, deathpixie style, darkwave, 165 bpm, 4/4 meter, heavy 808 sub bass, distorted cowbell lead, fast metallic synth stabs, punchy kicks, fast female vocal, aggressive vocal chops, high-energy cyber rave",
+      "lyrics": "[Verse 1]\n(fast, aggressive female vocal)\nSub-zero rails ignite with blue!\nMagnetic vault is breaking through!\nSpike the signal, drop the key!\nOverdrive the battery!\nLaser tripwires snap and fray!\nStealing all their wealth away!\nGoggles down, the voltage leaps!\nTaking what the syndicate keeps!\n\n[Pre-Chorus]\n(building distorted synth pulse)\nGravity coils begin to fail!\nRiding on a lightning trail!\nCount to three and pop the lock!\nFriction turns the steel to shock!\n\n[Chorus]\n(fast synthy phonk lead, heavy 808 drop)\nPlasma pulse! Cyber streak!\nHigh velocity we seek!\nCowbells pounding through the hull!\nShatter every warden's skull!\n\n[Verse 2]\n(fast, rhythmic flow)\nGatling turrets locked on high!\nRocket thrusters hit the sky!\nChasing echoes down the shaft!\nDodging every hunter craft!\nCopper sparks inside my hair!\nZero g and static air!\nHacker queen in tactical black!\nHit the boost and don't turn back!\n\n[Bridge]\n(eerie synth breakdown, heavy bass chops)\nCore rupture in ten seconds flat!\nTold 'em I was born for that!\nPop the hatch and hit the air!\nSailing through the neon glare!\n\n[Chorus]\n(fast synthy phonk lead, heavy 808 drop)\nPlasma pulse! Cyber streak!\nHigh velocity we seek!\nCowbells pounding through the hull!\nShatter every warden's skull!\n\n[Final Chorus]\n(maximum energy, layered vocal chops)\nPlasma pulse! Cyber streak!\nHigh velocity we seek!\nCowbells pounding through the hull!\nShatter every warden's skull!\n\n[Outro]\n(fading cowbell lead, static decay)\nVault is empty, syndicate down!\nNewest legend in the town!\nVanishing in purple smoke!\nBest heist that they ever broke!",
+      "seed": 85307,
+      "source_concept": "gemini-code-1790226254949.json",
+      "source_sha256": "fb8236bd83d5d45b6b673214a28e71118b39af995f160247a033c40f6220a86a",
+      "cot": "full",
+      "target_seconds": 360,
+      "duration_validation": {
+        "min_seconds": 250,
+        "max_seconds": 380
+      }
+    }
+  ]
+}
