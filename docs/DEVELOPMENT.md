@@ -21,10 +21,11 @@ For the complete upstream/local inference contract suite, install `yue2[test]` i
 Visualizer contracts use its own environment and import root:
 
 ```bash
+./studio setup --profile visualizer --dev
 PYTHONPATH=visualizer visualizer/.venv/bin/python -m pytest -q visualizer/tests
 ```
 
-Add pytest to that environment when developing. CI runs controller and inference contracts plus visualizer contracts in separate jobs. Test credentials are mocked; CI never requests a Colab VM or loads the large local language model.
+`--dev` installs pytest into the selected environment. CI runs controller and inference contracts plus visualizer contracts in separate jobs. Test credentials are mocked; CI never requests a Colab VM or loads the large local language model.
 
 ## Source provenance
 

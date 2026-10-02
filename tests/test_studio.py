@@ -78,6 +78,16 @@ def test_controller_install_and_cli_dispatch_use_isolated_python(monkeypatch,tmp
     assert calls[0][-1]==tmp_path/'requirements-dev.txt'
 
 
+def test_visualizer_dev_profile_installs_its_own_test_runner(monkeypatch,tmp_path):
+    isolated(monkeypatch,tmp_path)
+    calls = []
+    monkeypatch.setattr(studio, 'execute', lambda *args, **kwargs: None)
+    monkeypatch.setattr(studio, 'pip_install', lambda python, args: calls.append((python, args)))
+    class Args:profile='visualizer';dev=True;tags=False;engines=False;models=False
+    studio.setup(Args())
+    assert calls[-1] == (tmp_path/'visualizer/.venv/bin/python', ['pytest==9.0.3'])
+
+
 def test_remote_run_kit_keeps_selected_drive_path(tmp_path,monkeypatch):
     sys.path.insert(0,str(ROOT/'yue2'))
     import run_config

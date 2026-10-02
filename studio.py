@@ -101,6 +101,7 @@ def setup(args):
         python=path(config['visualizer_python'])
         pip_install(python,['torch==2.8.0','torchaudio==2.8.0','--index-url','https://download.pytorch.org/whl/cpu'])
         pip_install(python,['-r',ROOT/'visualizer/requirements.txt'])
+        if args.dev:pip_install(python,['pytest==9.0.3'])
     if args.engines:
         execute(['bash',ROOT/'gemma/setupGemma12B.sh','--build'])
         execute(['bash',ROOT/'visualizer/scripts/setup_karaoke.sh','--build-only'])

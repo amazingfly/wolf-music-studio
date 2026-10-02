@@ -12,9 +12,13 @@ The visualizer has a **separate** environment: PyTorch/torchaudio 2.8 preserve t
 ./studio setup --profile all --engines --models --tags
 ```
 
+Use `--dev` with either profile (or `all`) to install pytest into every selected environment. The visualizer test runner must use `visualizer/.venv/bin/python`; the controller environment does not contain the rendering/alignment dependencies.
+
 The last command includes optional tagging. Essentia TensorFlow wheel availability varies by platform; omit `--tags` if the wheel cannot install, while retaining trim/library/visualizer functionality. Without tagging, existing tags are still imported into the library.
 
 System dependencies are listed in the main README. `./studio doctor` reports missing dependencies without loading a model, rendering media, requesting Colab or reading credentials into its output. A controller-only install legitimately reports missing visualizer/model prerequisites. Gemma/Whisper builds are pinned to the commits in `sources.json`; cached external checkouts and build products are ignored by Git.
+
+The Vulkan source build requires **`spirv-headers`** in addition to `spirv-tools` and `glslc`: llama.cpp looks for the `SPIRV-Headers` CMake package. Install `libssl-dev` and `pkg-config` as listed in the README for HTTPS-capable engine builds. A successful Python-only setup does not verify these build dependencies.
 
 ## Settings
 

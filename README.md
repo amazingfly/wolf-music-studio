@@ -26,10 +26,10 @@ Linux with Python **3.12** is the tested environment. On Ubuntu/Debian, install 
 
 ```bash
 sudo apt-get update
-sudo apt-get install -y python3-venv python3-dev build-essential cmake git curl jq \
+sudo apt-get install -y python3-venv python3-dev build-essential cmake git curl jq pkg-config libssl-dev \
   ffmpeg mpv rclone libsndfile1 fonts-dejavu-core libegl1 libgl1 libgl1-mesa-dri \
   libvulkan-dev vulkan-tools \
-  glslc glslang-dev glslang-tools spirv-tools mesa-vulkan-drivers mesa-va-drivers
+  glslc glslang-dev glslang-tools spirv-tools spirv-headers mesa-vulkan-drivers mesa-va-drivers
 ```
 
 Then install the whole local stack, build the pinned Vulkan engines and download models:
