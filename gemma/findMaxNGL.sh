@@ -45,7 +45,7 @@ STABLE_NGL=0
 for ngl in {14..0..-1}; do
     echo -n "Testing -ngl $ngl ... "
     TEST_LOG=$(mktemp)
-    
+
     if $LLAMA_BIN -m "$MODEL_PATH" -ngl $ngl -c $CTX_SIZE -ctk q8_0 -ctv q8_0 -n 1 -p "Test" 2>&1 > "$TEST_LOG" | grep -qi "out of memory\|VK_ERROR_OUT_OF_DEVICE_MEMORY\|failed to allocate"; then
         echo "❌ OOM"
     else

@@ -40,11 +40,11 @@ float distToOrbSegment(vec2 p, vec2 a, vec2 b, float highs, float t) {
     vec2 pa = p - a, ba = b - a;
     float h = clamp(dot(pa, ba) / dot(ba, ba), 0.0, 1.0);
     vec2 seg_pt = a + ba * h;
-    
+
     vec2 perp = vec2(-ba.y, ba.x);
     float len = length(perp);
     if (len > 1e-4) perp /= len;
-    
+
     float wave = sin(h * 35.0 + t * 45.0) * cos(h * 15.0 - t * 20.0) * 8.0 * (0.25 + 0.20 * highs);
     vec2 w_pt = seg_pt + perp * wave;
     return length(p - w_pt);
@@ -85,10 +85,10 @@ void main() {
                 float wobble_freq = u_wobble_freq_base + mod(float(k), 3.0) * 2.0;
                 float wobble_amp = curr_r * (u_wobble_amp_base + u_wobble_amp_perc * u_perc_exp);
                 float distorted_r = curr_r + wobble_amp * sin(wobble_freq * ring_angle + u_time * 9.0);
-                
+
                 float thickness = max(4.0, (10.0 + 45.0 * u_perc_exp) * (1.0 - ring_phase * 0.4));
                 float ring_dist = abs(d - distorted_r);
-                
+
                 float ring_mask = 1.0 - smoothstep(thickness * 0.5 - aa, thickness * 0.5 + aa, ring_dist);
                 frame_orbs += flared_bgr * ring_alpha * ring_mask;
 
@@ -105,7 +105,7 @@ void main() {
         float surround_mask = 1.0 - smoothstep(surround_r - aa, surround_r + aa, d);
         float surround_stroke = abs(d - surround_r);
         float surround_line = 1.0 - smoothstep(max(2.0, 3.0 + 6.0 * u_perc_exp) - aa, max(2.0, 3.0 + 6.0 * u_perc_exp) + aa, surround_stroke);
-        
+
         if (d <= surround_r + aa) {
             frame_orbs = mix(frame_orbs, flared_bgr * 0.4, surround_mask);
             frame_orbs = mix(frame_orbs, vec3(1.0), surround_line);

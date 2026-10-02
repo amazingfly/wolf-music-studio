@@ -64,11 +64,11 @@ float distToJaggedSegment(vec2 p, vec2 a, vec2 b, float arc_id, float time, floa
     vec2 pa = p - a, ba = b - a;
     float h = clamp(dot(pa, ba) / (dot(ba, ba) + 1e-5), 0.0, 1.0);
     vec2 seg_pt = a + ba * h;
-    
+
     vec2 perp = vec2(-ba.y, ba.x);
     float len = length(perp);
     if (len > 1e-4) perp /= len;
-    
+
     float disp = tinfoilDisplacement(h, arc_id, time, highs);
     vec2 jagged_pt = seg_pt + perp * disp;
     return length(p - jagged_pt);
@@ -90,11 +90,11 @@ void main() {
     float rebound_pulse = sin(u_time * u_rebound_pulse_freq);
 
     for (int iter = 0; iter < 2; iter++) {
-        center_offset.x = (sin(z_est * 0.45 + u_time * 1.85) * 0.50 + 
+        center_offset.x = (sin(z_est * 0.45 + u_time * 1.85) * 0.50 +
                            cos(z_est * 0.22 - u_time * 1.15) * 0.30) * curve_amplitude * rebound_pulse;
-        center_offset.y = (cos(z_est * 0.38 + u_time * 1.65) * 0.50 + 
+        center_offset.y = (cos(z_est * 0.38 + u_time * 1.65) * 0.50 +
                            sin(z_est * 0.18 + u_time * 1.35) * 0.30) * curve_amplitude * rebound_pulse;
-        
+
         vec2 st_iter = st - center_offset;
         z_est = 0.6 / (length(st_iter) + 1e-5);
     }
@@ -131,15 +131,15 @@ void main() {
     for (int i = 0; i < 8; i++) {
         if (i >= u_arcs_count) break;
         float arc_id = float(i);
-        float slot_rate = u_arc_slot_rate; 
+        float slot_rate = u_arc_slot_rate;
         float ftime_slot = floor(u_time * slot_rate + arc_id * 3.7);
         float arc_phase = fract(u_time * slot_rate + arc_id * 3.7);
-        
+
         if (hash11(ftime_slot * 8.3 + arc_id) < u_arc_strike_prob) continue;
-        
+
         float a1 = hash11(ftime_slot * 1.1 + arc_id) * 6.28318;
-        float a2 = a1 + 1.57 + hash11(ftime_slot * 2.3 + arc_id) * 3.14159; 
-        
+        float a2 = a1 + 1.57 + hash11(ftime_slot * 2.3 + arc_id) * 3.14159;
+
         float wall_r1 = 0.15 + 0.35 * hash11(ftime_slot * 3.1 + arc_id);
         float wall_r2 = wall_r1 + (hash11(ftime_slot * 4.7) - 0.5) * 0.15;
 

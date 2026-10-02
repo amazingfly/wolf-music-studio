@@ -25,10 +25,10 @@ for ngl in {10..16}; do
     # Run a 1-token test in background
     $LLAMA_BIN -m "$MODEL_PATH" -ngl $ngl -c 8192 -ctk q8_0 -ctv q8_0 -n 1 -p "test" > /dev/null 2>&1 &
     PID=$!
-    
+
     # Allow llama-cli 2.5 seconds to allocate weights & KV graph
     sleep 2.5
-    
+
     # Query AMD sysfs memory allocation
     if [ -f "/sys/class/drm/card0/device/mem_info_gtt_used" ]; then
         GTT_BYTES=$(cat /sys/class/drm/card0/device/mem_info_gtt_used 2>/dev/null || echo 0)
@@ -39,9 +39,9 @@ for ngl in {10..16}; do
         GTT_MB=0
         VRAM_MB=0
     fi
-    
+
     wait $PID 2>/dev/null
-    
+
     if [ "$GTT_MB" -gt 15 ]; then
         echo "Layer -ngl $ngl: ❌ SPILLING (VRAM: ${VRAM_MB} MB | GTT/PCIe: ${GTT_MB} MB)"
     else

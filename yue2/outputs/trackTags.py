@@ -76,7 +76,7 @@ def analyze_track(file_path, classes):
         clean_label = raw_label.replace("---", " / ")
         score = float(mean_predictions[idx])
         top_genres.append({"genre": clean_label, "confidence": round(score, 4)})
-        
+
         # Format hashtag (e.g., #Industrial, #Darkwave)
         sub_tag = clean_label.split(" / ")[-1].replace(" ", "").replace("-", "")
         hashtags.append(f"#{sub_tag}")
