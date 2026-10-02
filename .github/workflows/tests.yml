@@ -48,6 +48,9 @@ jobs:
         run: PYTHONPATH=yue2/src python -m pytest -q -c yue2/pyproject.toml yue2/tests
   visualizer:
     runs-on: ubuntu-latest
+    env:
+      LIBGL_ALWAYS_SOFTWARE: "1"
+      EGL_PLATFORM: surfaceless
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7
@@ -59,7 +62,7 @@ jobs:
             locks/*.txt
             yue2/pyproject.toml
             visualizer/requirements*.txt
-      - run: sudo apt-get update && sudo apt-get install -y ffmpeg fonts-dejavu-core
+      - run: sudo apt-get update && sudo apt-get install -y ffmpeg fonts-dejavu-core libegl1 libgl1 libgl1-mesa-dri
       - run: ./studio setup --profile visualizer
       - run: visualizer/.venv/bin/python -m pip install pytest
       - run: PYTHONPATH=visualizer visualizer/.venv/bin/python -m pytest -q visualizer/tests

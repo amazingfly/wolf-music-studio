@@ -59,6 +59,8 @@ The tested local model is `gemma-4-12B-it-Q6_K.gguf`. **Q6_K refers to the weigh
 
 `visualizer/scripts/setup_karaoke.sh --build-only` builds pinned whisper.cpp. `--models-only` downloads Whisper large-v3 q5_0 and the CTC alignment weights. Demucs fetches its weights on first use. Models follow their own upstream licenses; obtain any required access/terms directly from their providers.
 
+Headless machines also need the EGL/OpenGL runtime libraries: `libegl1`, `libgl1` and `libgl1-mesa-dri` on Ubuntu. For a software-rendered headless preview/test, use `LIBGL_ALWAYS_SOFTWARE=1 EGL_PLATFORM=surfaceless`; this is the CI configuration.
+
 For VAAPI/ModernGL, verify your user can access `/dev/dri/renderD*`, the Mesa drivers are installed, and a working EGL/OpenGL context can be created. The visualizer can fall back to software H.264 encoding; changing render-device paths happens in `visualizer/config.json`. Recognition/alignment of harsh singing needs human review.
 
 ## Services

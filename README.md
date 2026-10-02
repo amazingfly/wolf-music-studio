@@ -27,7 +27,8 @@ Linux with Python **3.12** is the tested environment. On Ubuntu/Debian, install 
 ```bash
 sudo apt-get update
 sudo apt-get install -y python3-venv python3-dev build-essential cmake git curl jq \
-  ffmpeg mpv rclone libsndfile1 fonts-dejavu-core libvulkan-dev vulkan-tools \
+  ffmpeg mpv rclone libsndfile1 fonts-dejavu-core libegl1 libgl1 libgl1-mesa-dri \
+  libvulkan-dev vulkan-tools \
   glslc glslang-dev glslang-tools spirv-tools mesa-vulkan-drivers mesa-va-drivers
 ```
 
