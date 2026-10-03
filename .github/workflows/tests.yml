@@ -26,7 +26,7 @@ jobs:
             yue2/tests/test_backup_snapshot.py yue2/tests/test_gemma_prompt_cache.py \
             yue2/tests/test_local_compute.py yue2/tests/test_make_config.py \
             yue2/tests/test_partial_download.py yue2/tests/test_process_tracks.py \
-            yue2/tests/test_queue_supervisor.py yue2/tests/test_run_config.py \
+            yue2/tests/test_queue_supervisor.py yue2/tests/test_run_config.py yue2/tests/test_run_batch_resume.py \
             yue2/tests/test_songwriter.py yue2/tests/test_songwriter_v2.py \
             yue2/tests/test_track_library.py yue2/tests/test_visualizer_queue.py
   inference:

@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.3
+
+Recovers a completion receipt restored from Drive without its `audio.flac`, resuming saved plan, semantic and latent stages instead of failing every allocation. Preserves the previous receipt for audit and retains strict checks for existing audio corruption. Adds CPU-only recovery regression tests and documents allocation versus service/completion status.
+
 ## 0.2.2
 
 TrackTags records the top ten genre scores/hashtags and a `hashtags_top5` string for pasting into video descriptions. The library copies the top five while searching all ten. Existing five-tag analyses are upgraded when revisited.

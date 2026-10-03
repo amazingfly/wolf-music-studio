@@ -4,8 +4,6 @@ from __future__ import annotations
 import argparse, json, os, shutil, time, gc
 from pathlib import Path
 import numpy as np
-from yue2 import YuE2Pipeline, SymbolicPlan, SemanticResult
-import torch
 from yue2.storage import identity, sha256_file
 
 def array_atomic(path, value):
@@ -15,6 +13,7 @@ def array_atomic(path, value):
     temp.replace(path)
 
 def memory(out, stage):
+    import torch
     torch.cuda.synchronize()
     report = {'stage': stage, 'gpu': torch.cuda.get_device_name(),
               'allocated_gib': torch.cuda.memory_allocated()/2**30,
@@ -37,10 +36,20 @@ def run_one(pipe, req, out):
     atomic(receipt, {'identity': request_identity})
     if (out/'result.json').is_file():
         saved=json.loads((out/'result.json').read_text())
-        if saved.get('audio_sha256') != sha256_file(out/'audio.flac'):
-            raise ValueError('Completed audio checksum mismatch')
-        atomic(out/'request.json', req)
-        return {'id':req['id'],'status':'already_complete'}
+        if saved.get('status') != 'complete':
+            raise ValueError('Saved completion receipt is not complete')
+        if (out/'audio.flac').is_file():
+            if saved.get('audio_sha256') != sha256_file(out/'audio.flac'):
+                raise ValueError('Completed audio checksum mismatch')
+            atomic(out/'request.json', req)
+            return {'id':req['id'],'status':'already_complete'}
+        # An interrupted Drive upload can restore the tiny receipt before its
+        # audio. Preserve that receipt, then resume from saved plan/tokens/latents.
+        atomic(out/'result.recovery.json', {'reason':'Completed receipt restored without audio.flac',
+                                         'previous_result':saved,'recovered_at':time.time()})
+        (out/'result.json').unlink()
+        print(f'Recovering {req["id"]}: missing audio.flac; resuming saved stages',flush=True)
+    from yue2 import SymbolicPlan, SemanticResult
     memory(out, 'start')
     plan_dir=out/'plan'
     if (plan_dir/'plan_manifest.json').is_file(): plan=SymbolicPlan.load(plan_dir)
@@ -95,6 +104,7 @@ def run_one(pipe, req, out):
     return {'id':req['id'],'status':'complete','audio_seconds':seconds}
 
 def main():
+    from yue2 import YuE2Pipeline
     ap=argparse.ArgumentParser(); ap.add_argument('--requests',default='/content/yue2/requests/batch.jsonl'); ap.add_argument('--output',default='/content/yue2-outputs'); ap.add_argument('--model',default='m-a-p/YuE2-3B'); ap.add_argument('--vae',default='m-a-p/YuE2-Vae'); ap.add_argument('--cache-dir',default='/content/hf-cache'); args=ap.parse_args()
     rows=[json.loads(x) for x in Path(args.requests).read_text().splitlines() if x.strip()]
     selected=os.environ.get('YUE2_SONG_ID')
