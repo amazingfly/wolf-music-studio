@@ -67,7 +67,7 @@ def render_track(audio, output_dir, config_path=ROOT / 'config.json', lyrics_fil
                  formats=('widescreen', 'portrait'), max_duration=None):
     import soundfile as sf
     from vis.config import load_config
-    from vis.karaoke import prepare, validate_timeline
+    from vis.karaoke import prepare, validate_timeline, require_caption_quality, KaraokeQualityError
     from vis.renderer import render_visualizer_pipeline
 
     audio = Path(audio).resolve()
@@ -87,14 +87,21 @@ def render_track(audio, output_dir, config_path=ROOT / 'config.json', lyrics_fil
         before = fingerprint(audio)
         duration = sf.info(audio).duration
         config = load_config(str(config_path))
-        if words_file:
-            words_file = Path(words_file).resolve()
-        else:
-            words_file = prepare(audio, output_root=karaoke_root or output_dir / 'karaoke',
-                                 lyrics_file=lyrics_file, vocals=vocals, threads=threads)
-        timeline = validate_timeline(json.loads(Path(words_file).read_text()))
-        if timeline.get('audio_sha256') != before or abs(timeline['duration'] - duration) > .05:
-            raise ValueError('Caption timeline does not belong to this exact audio/duration')
+        try:
+            if words_file:
+                words_file = Path(words_file).resolve()
+            else:
+                words_file = prepare(audio, output_root=karaoke_root or output_dir / 'karaoke',
+                                     lyrics_file=lyrics_file, vocals=vocals, threads=threads)
+            timeline = validate_timeline(json.loads(Path(words_file).read_text()))
+            if timeline.get('audio_sha256') != before or abs(timeline['duration'] - duration) > .05:
+                raise ValueError('Caption timeline does not belong to this exact audio/duration')
+            quality = require_caption_quality(timeline)
+        except KaraokeQualityError as exc:
+            write_json(output_dir / 'karaoke_review.json', {**exc.report, 'audio': str(audio),
+                       'audio_sha256': before})
+            raise
+        (output_dir / 'karaoke_review.json').unlink(missing_ok=True)
         fps = config['video']['fps']
         if not isinstance(fps, int) or fps <= 0:
             raise ValueError('Video FPS must be a positive integer')
@@ -109,6 +116,7 @@ def render_track(audio, output_dir, config_path=ROOT / 'config.json', lyrics_fil
         reusable = previous.get('provenance') == provenance
         receipt = {'status': 'rendering', 'provenance': provenance, 'words_file': str(words_file),
                    'word_count': len(timeline['words']), 'review_count': timeline.get('review_count', 0),
+                   'karaoke_quality': quality,
                    'issues': timeline.get('issues', []),
                    'videos': dict(previous.get('videos', {})) if reusable else {}}
         write_json(receipt_path, receipt)

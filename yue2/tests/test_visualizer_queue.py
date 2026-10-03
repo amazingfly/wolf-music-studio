@@ -106,6 +106,37 @@ def test_changed_source_supersedes_job_without_launch(tmp_path, monkeypatch):
     assert queue.run_job(job, state)['status'] == 'superseded'
 
 
+def test_quality_review_does_not_retry_or_publish_complete(tmp_path, monkeypatch):
+    audio, vis, spool, db = fixture(tmp_path, monkeypatch)
+    queue.enqueue_track(audio, {'id': 'wolf', 'lyrics': 'Sing'}, db, spool, vis)
+    job, state = queue.next_job(spool)
+    output = Path(job['output_dir']); output.mkdir(parents=True)
+    class ReviewProcess:
+        def __init__(self, *args, **kwargs): pass
+        def wait(self):
+            atomic_json(output/'karaoke_review.json', {'status':'needs_review', 'audio_sha256':queue.digest(audio),
+                                                    'reasons':['Hallucinated phrase loop']})
+            return 1
+    monkeypatch.setattr(queue.subprocess, 'Popen', ReviewProcess)
+    result = queue.run_job(job, state)
+    assert result['status'] == 'needs_review'
+    assert 'next_attempt_at' not in result
+    assert queue.next_job(spool) == (None, None)
+
+
+def test_prepared_caption_snapshot_is_frozen_and_bound_to_audio(tmp_path, monkeypatch):
+    audio, vis, spool, db = fixture(tmp_path, monkeypatch)
+    words = tmp_path/'words.json'
+    atomic_json(words, {'audio_sha256':queue.digest(audio), 'words':[{'word':'Wolf'}]})
+    result = queue.enqueue_track(audio, {'id':'wolf','lyrics':'Sing'}, db, spool, vis, words_file=words)
+    folder = Path(result['job_path'])
+    assert (folder/'words.json').read_bytes() == words.read_bytes()
+    words.write_text('{}')
+    assert json.loads((folder/'words.json').read_text())['audio_sha256'] == queue.digest(audio)
+    with pytest.raises(ValueError, match='exact audio'):
+        queue.enqueue_track(audio, {'id':'wolf','lyrics':'Sing'}, db, spool, vis, words_file=words)
+
+
 def test_registry_updates_preserve_tags_and_reject_stale_worker(tmp_path, monkeypatch):
     original = tmp_path / 'batch/wolf/audio.flac'
     original.parent.mkdir(parents=True)

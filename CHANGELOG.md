@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.1
+
+Fixes karaoke transcription loops and large timing drift. Recognition disables accumulated text context, compares the vocal stem with independent original-mix recognition, and aligns each phrase within its own acoustic window. Out-of-range segments and descriptive music annotations are excluded.
+
+Catastrophic caption timelines now become `needs_review` without rendering or automatic retries. Queue jobs can snapshot an audio-bound prepared timeline with `--words FILE`; source recordings and previous videos remain intact. Adds regression tests for prompt identity, hallucination loops, bounded alignment, review handling and immutable caption snapshots.
+
 ## 0.2.0
 
 Makes one generation per input song the explicit default and adds opt-in `--seedSweep N`/`--seed-sweep N` for new runs and directory-queue jobs. Sweeps preserve the original seed and create deterministic additional seeds/track IDs; saved runs retain their existing requests when resumed. Documents the distinction between new lyric variations and audio seed sweeps.

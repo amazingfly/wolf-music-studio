@@ -19,7 +19,13 @@ import unicodedata
 
 ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_PROMPT_ROOT = Path(os.environ.get('YUE2_ROOT', str(ROOT.parent / 'yue2'))).expanduser().resolve()
-VERSION = 5
+VERSION = 6
+
+
+class KaraokeQualityError(ValueError):
+    def __init__(self, report):
+        self.report = report
+        super().__init__('Karaoke needs review: ' + '; '.join(report['reasons']))
 
 
 def apostrophes(text):
@@ -73,7 +79,8 @@ def find_prompt(audio, root=DEFAULT_PROMPT_ROOT, explicit=None):
             # source_id is deliberately excluded: rewrites can reference an older song.
             ids = [record.get(k, '') for k in ('id', 'track_identifier', 'title', 'file_name')]
             exact = any(re.sub(r'[^a-z0-9]', '', Path(str(v)).stem.lower()) == key for v in ids)
-            if exact or (explicit and len(list(records(data))) == 1):
+            unidentified = not any(record.get(k) for k in ('id','track_identifier','title','file_name'))
+            if exact or (explicit and unidentified and len(list(records(data))) == 1):
                 matches.append({'source': str(path.resolve()), **record})
     if not matches:
         raise ValueError(f'No exact lyric prompt for {Path(audio).stem}; supply --lyrics FILE')
@@ -134,7 +141,7 @@ def transcribe(vocals, work, cli, model, lyrics, threads=4, gpu=True, name='reco
     vocabulary = list(dict.fromkeys(w.lower() for w in words(lyrics) if len(w) >= 6))[:65]
     prompt = 'Song lyrics. ' + ', '.join(vocabulary) + '.'
     command = [cli, '-m', model, '-f', vocals, '-l', 'en', '-t', str(threads),
-               '-ojf', '-of', str(work / name), '-bs', '5', '-bo', '5']
+               '-ojf', '-of', str(work / name), '-bs', '5', '-bo', '5', '-mc', '0']
     if lyrics:
         command.extend(['--prompt', prompt, '--carry-initial-prompt'])
     if not gpu:
@@ -261,35 +268,81 @@ def group_segments(segments, max_duration=24):
     return grouped
 
 
+def recognition_segments(recognition, duration):
+    segments = []
+    for item in recognition['transcription']:
+        text = re.sub(r'\[[^\]]*\]|\([^)]*\)|\*[^*]*\*', '', item['text']).strip()
+        if not words(text):
+            continue
+        start = max(0, item['offsets']['from']/1000)
+        end = min(duration, item['offsets']['to']/1000)
+        if start >= end:
+            continue
+        if segments and start < segments[-1]['start']:
+            raise ValueError('Recognition phrase timestamps move backwards')
+        segments.append({'text': text, 'start': start, 'end': end})
+    return segments
+
+
+def recognition_health(recognition, lyrics, duration):
+    segments = recognition_segments(recognition, duration)
+    heard = [normalized(w) for s in segments for w in words(s['text'])]
+    reference = list(map(normalized, words(lyrics)))
+    matched = sum(b.size for b in SequenceMatcher(None, reference, heard, autojunk=False).get_matching_blocks())
+    # Compatibility with the prompt is evidence, not a measured word-error rate.
+    score = 2*matched/max(1, len(reference)+len(heard))
+    longest = run = 0
+    previous = None
+    for segment in segments:
+        phrase = tuple(map(normalized, words(segment['text'])))
+        run = run+1 if phrase == previous and len(phrase) >= 3 else 1
+        longest = max(longest, run)
+        previous = phrase
+    return {'word_count': len(heard), 'reference_matches': matched,
+            'reference_compatibility': round(score, 4), 'longest_phrase_loop': longest}
+
+
+def select_recognition(recognition, mix_recognition, lyrics, duration):
+    reports = {'vocals': recognition_health(recognition, lyrics, duration)}
+    selected = 'vocals'
+    if mix_recognition:
+        reports['mix'] = recognition_health(mix_recognition, lyrics, duration)
+        vocal, mix = reports['vocals'], reports['mix']
+        if (mix['word_count'] and
+            (mix['reference_compatibility'] > vocal['reference_compatibility']+0.10 or
+             vocal['longest_phrase_loop'] >= 4 and mix['reference_compatibility'] > vocal['reference_compatibility'])):
+            selected = 'mix'
+    primary, secondary = (mix_recognition, recognition) if selected == 'mix' else (recognition, mix_recognition)
+    return primary, secondary, {'kind': 'recognition_source_selection', 'selected': selected, 'candidates': reports}
+
+
 def align_song(vocals, recognition, lyrics, work, threads=4, bundle='WAV2VEC2_ASR_LARGE_960H', mix_recognition=None):
     import numpy as np
     import soundfile as sf
     samples, rate = sf.read(vocals, dtype='float32')
-    segments = []
-    for item in recognition['transcription']:
-        text = re.sub(r'\[[^\]]*\]|\([^)]*\)', '', item['text']).strip()
-        if not words(text):
-            continue
-        segments.append({'text': text, 'start': max(0, item['offsets']['from']/1000),
-                         'end': min(len(samples)/rate, item['offsets']['to']/1000)})
+    recognition, secondary, selection = select_recognition(recognition, mix_recognition, lyrics, len(samples)/rate)
+    segments = recognition_segments(recognition, len(samples)/rate)
     segments = group_segments(segments)
     candidates, issues = reference_candidates(segments, lyrics)
+    issues.insert(0, selection)
     mix_candidates = None
-    if mix_recognition:
-        mix_text = ' '.join(s['text'] for s in mix_recognition['transcription'])
+    if secondary:
+        mix_text = ' '.join(s['text'] for s in recognition_segments(secondary, len(samples)/rate))
         mix_candidates, _ = reference_candidates(segments, mix_text)
     aligner = AcousticAligner(threads, bundle)
-    decisions, selected_words, owners, sources_used = [], [], [], []
-    emissions, frame_starts, frame_ends = [], [], []
+    decisions, output = [], []
     for i, (segment, candidate) in enumerate(zip(segments, candidates)):
         print(f'[karaoke] Acoustic alignment {i+1}/{len(segments)}: {segment["text"][:65]}', flush=True)
         start = max(0, segment['start'] - 0.8)
         end = min(len(samples)/rate, segment['end'] + 0.8)
         # Split oversized segments at recognition boundaries, not arbitrarily in the transcript.
         if end - start > 40:
-            raise ValueError('Recognition segment exceeds 40 seconds; rerun recognition with shorter segments')
+            raise KaraokeQualityError({'status':'needs_review', 'reasons':[
+                'Recognition segment exceeds 40 seconds; rerun recognition with shorter segments']})
         chunk = samples[int(start*rate):int(end*rate)]
         if len(chunk) < 400:
+            decisions.append({**segment, 'unaligned_words':len(words(segment['text']))})
+            issues.append({'kind':'phrase_alignment_failed','segment':i,'reason':'Audio window too short'})
             continue
         emission_path = work / f'emission-{i:03d}.npy'
         if emission_path.exists():
@@ -304,7 +357,7 @@ def align_song(vocals, recognition, lyrics, work, threads=4, bundle='WAV2VEC2_AS
         selected_text = original
         sources = [('reference_corrected', candidate)]
         if mix_candidates:
-            sources.insert(0, ('mix_recognition', mix_candidates[i]))
+            sources.insert(0, ('secondary_recognition', mix_candidates[i]))
         for source, proposal in sources:
             # Test edits separately so one incorrect intended word does not veto
             # otherwise well-supported corrections elsewhere in the passage.
@@ -321,34 +374,78 @@ def align_song(vocals, recognition, lyrics, work, threads=4, bundle='WAV2VEC2_AS
                                  'score_delta': alt_score-score if np.isfinite(alt_score) and np.isfinite(score) else None})
                 if accepted:
                     aligned, score, chosen, selected_text = alternative, alt_score, source, trial
-        selected_words.extend(selected_text)
-        owners.extend([i] * len(selected_text))
-        sources_used.extend([chosen] * len(selected_text))
-        # Assemble a single acoustic timeline, trimming duplicate overlap frames.
-        # Final forced alignment crosses ASR chunk boundaries, so no real words
-        # are discarded just because a recognizer placed a boundary too early.
+        # Keep every phrase in its own acoustic window. One hallucinated phrase
+        # must never pull all later lyrics backwards through the rest of a song.
         step = (len(chunk)/rate) / emission.shape[1]
         starts = start + np.arange(emission.shape[1]) * step
         ends = starts + step
         left = (segments[i-1]['end'] + segment['start'])/2 if i else 0
         right = (segment['end'] + segments[i+1]['start'])/2 if i+1 < len(segments) else len(samples)/rate
         mask = ((starts+ends)/2 >= left) & ((starts+ends)/2 < right)
-        emissions.append(emission[:, mask, :])
-        frame_starts.extend(np.maximum(starts[mask], left))
-        frame_ends.extend(np.minimum(ends[mask], right))
+        if not mask.any():
+            decisions.append({**segment, 'unaligned_words':len(selected_text)})
+            issues.append({'kind':'phrase_alignment_failed','segment':i,'reason':'No acoustic frames'})
+            continue
+        local, local_score = aligner.align(emission[:, mask, :], selected_text, start,
+            len(chunk)/rate, (np.maximum(starts[mask], left), np.minimum(ends[mask], right)))
+        if len(local) != len(selected_text):
+            decisions.append({**segment, 'unaligned_words':len(selected_text)})
+            issues.append({'kind':'phrase_alignment_failed','segment':i,
+                           'reason':'Transcript cannot fit the acoustic window','unmatched_text':' '.join(selected_text)})
+            continue
+        for word in local:
+            word.update(segment=i, source=chosen, review=word['confidence'] < 0.35)
+        output.extend(local)
         decisions.append({**segment, 'selected': chosen, 'candidate': ' '.join(candidate),
                           'acoustic_score': score if np.isfinite(score) else None,
+                          'window_start': float(max(start, left)), 'window_end': float(min(end, right)),
+                          'local_acoustic_score': local_score if np.isfinite(local_score) else None,
                           'corrections': attempts})
-    if not emissions:
-        raise ValueError('No vocal transcript to align')
-    print('[karaoke] Aligning final words across the complete acoustic timeline.', flush=True)
-    output, _ = aligner.align(aligner.torch.cat(emissions, dim=1), selected_words, 0,
-                              len(samples)/rate, (frame_starts, frame_ends))
-    if len(output) != len(selected_words):
-        raise ValueError('Final alignment could not represent every word; inspect recognition and unsupported characters')
-    for word, owner, source in zip(output, owners, sources_used):
-        word.update(segment=owner, source=source, review=word['confidence'] < 0.35)
+    if not output:
+        raise KaraokeQualityError({'status':'needs_review','reasons':['No reliably aligned vocal transcript']})
     return output, decisions, issues
+
+
+def caption_quality(data):
+    """Block catastrophic captions; confidence is not a calibrated accuracy score."""
+    ws = data['words']
+    low = sum(w.get('confidence', 1) < 0.35 for w in ws)
+    drifted = 0
+    for w in ws:
+        segment = w.get('segment')
+        decisions = data.get('decisions', [])
+        if isinstance(segment, int) and 0 <= segment < len(decisions):
+            d = decisions[segment]
+            if w['end'] < d['start']-2 or w['start'] > d['end']+2:
+                drifted += 1
+    reasons = []
+    unaligned = sum(d.get('unaligned_words',0) for d in data.get('decisions',[]))
+    if unaligned/max(1,len(ws)+unaligned) > .20:
+        reasons.append(f'{unaligned} words could not fit their acoustic windows')
+    if len(ws) >= 20 and low/len(ws) > .70:
+        reasons.append(f'{low}/{len(ws)} words have very weak acoustic support')
+    if drifted:
+        reasons.append(f'{drifted} words escaped their recognition phrase windows')
+    # Detect lengthy, immediate repeats, while keeping repeated choruses and
+    # single-word chants. ASR loop detection alone is not proof of bad audio.
+    token = [normalized(w['word']) for w in ws]
+    loop = False
+    for width in range(3, 13):
+        if any(token[i:i+width]*6 == token[i:i+width*6] for i in range(max(0,len(token)-width*6+1))):
+            loop = True
+            break
+    if loop and low/max(1,len(ws)) > .40:
+        reasons.append('Repeated phrase loop with weak acoustic support')
+    return {'status': 'needs_review' if reasons else 'accepted', 'word_count': len(ws),
+            'low_confidence_words': low, 'phrase_drift_words': drifted,
+            'unaligned_words': unaligned, 'reasons': reasons}
+
+
+def require_caption_quality(data):
+    report = caption_quality(data)
+    if report['status'] == 'needs_review':
+        raise KaraokeQualityError(report)
+    return report
 
 
 def validate_timeline(data):
@@ -383,7 +480,7 @@ def prepare(audio, output_root='output/karaoke', prompt_root=DEFAULT_PROMPT_ROOT
     work.mkdir(parents=True, exist_ok=True)
     final = work / 'words.json'
     if final.exists():
-        validate_timeline(json.loads(final.read_text()))
+        require_caption_quality(validate_timeline(json.loads(final.read_text())))
         print(f'[karaoke] Cached alignment: {final}', flush=True)
         return final
     write_json(work / 'prompt.json', prompt)
@@ -406,7 +503,10 @@ def prepare(audio, output_root='output/karaoke', prompt_root=DEFAULT_PROMPT_ROOT
             'words': output, 'review_count': sum(w['review'] for w in output),
             'alignment_model': bundle, 'decisions': decisions, 'issues': issues}
     validate_timeline(data)
+    data['quality'] = caption_quality(data)
     write_json(final, data)
+    write_json(work / 'quality.json', data['quality'])
+    require_caption_quality(data)
     print(f'[karaoke] Saved {len(output)} words; {data["review_count"]} need review: {final}', flush=True)
     return final
 

@@ -11,6 +11,22 @@ from vis2GPUV7 import fingerprint, render_track, write_json
 
 
 class AutomationTests(unittest.TestCase):
+    def test_unreliable_caption_timeline_is_held_before_render(self):
+        from vis.karaoke import KaraokeQualityError
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder); audio, config, words = self.inputs(root)
+            data = json.loads(words.read_text())
+            data['words'] = [{'word':'invented','start':i*.05,'end':i*.05+.02,'confidence':.001}
+                             for i in range(30)]
+            write_json(words,data)
+            with patch('vis.renderer.render_visualizer_pipeline') as renderer:
+                with self.assertRaises(KaraokeQualityError):
+                    render_track(audio, root/'out', config, words_file=words)
+                renderer.assert_not_called()
+            report = json.loads((root/'out/karaoke_review.json').read_text())
+            self.assertEqual(report['status'],'needs_review')
+            self.assertEqual(report['audio_sha256'],fingerprint(audio))
+
     def inputs(self, root):
         audio = root / 'wolf.flac'
         sf.write(audio, np.zeros((16000 * 2, 2)), 16000, subtype='PCM_24')

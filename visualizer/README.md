@@ -228,12 +228,14 @@ are preserved.
 
 HTDemucs isolates vocals on CPU. Quantized Whisper large-v3 runs on Vulkan twice:
 once on the stem with a short lyric vocabulary hint, and once independently on
-the original mix. The second pass can recover material damaged by separation.
-Wav2Vec2 large CTC alignment compares short lyric/mix corrections against the
-acoustic evidence and measures each word's boundaries. It aligns longer passages
-across coarse Whisper segment boundaries; words are never evenly distributed over
-a line. Large missing passages are reported instead of automatically forced into
-the transcript. Actual departures from the generated prompt can remain captions.
+the original mix. Both disable accumulated recognition text context (`-mc 0`) to
+reduce repeated hallucinations. The primary pass is selected using prompt
+compatibility and phrase-loop evidence; the other supplies correction candidates.
+Wav2Vec2 large CTC alignment compares short corrections against acoustic evidence
+and measures each word's boundaries within its own phrase window. It never aligns
+the complete transcript across the whole song, so a bad phrase cannot pull all
+later words backwards. Words are never evenly distributed over a line. Unsupported
+passages are reported, and actual departures from the prompt can remain captions.
 
 The RX 480/580 Polaris path uses Vulkan for Whisper, OpenGL for visual effects and
 caption compositing, and VAAPI for H.264 encoding. HTDemucs and the PyTorch CTC model
@@ -255,6 +257,24 @@ word timings. Original song audio remains in the video.
 Preparation uses the full song even with `--max-duration` so a preview and a full
 render share the same lyric alignment. Model/audio/prompt hashes invalidate cached
 results when inputs change. Reuse `--words` to preserve manual edits explicitly.
+
+Catastrophic timelines are held before rendering: more than 70% weakly supported
+words (at least 20 words), words escaping their recognition phrase by over two
+seconds, lengthy immediate phrase loops combined with weak support, or more than
+20% unalignable words. These are failure guards, not an accuracy guarantee.
+`quality.json` and word decisions retain the evidence. The renderer writes
+`karaoke_review.json`, and the queue records `needs_review` without retrying the
+same captions. Previous videos and original audio remain available.
+
+After reviewing or repairing an audio-bound timeline, queue a new snapshot:
+
+```bash
+./studio visualize --enqueue /path/to/track/track.flac --words /path/to/words.json
+```
+
+Run the launcher from the repository root. `--words` requires one audio file;
+the queue freezes the supplied JSON and verifies its audio checksum before
+rendering. Normal backfills use `--enqueue DIRECTORY` and the current pipeline.
 
 Advanced preparation:
 

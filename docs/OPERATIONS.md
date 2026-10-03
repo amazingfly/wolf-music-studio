@@ -40,6 +40,8 @@ Queue states are `pending → running → done`, with `failed` and `cancelled` h
 
 The global JSON registry, per-file sidecars and SQLite catalog track prompt source, original/trimmed media, tags and visualizer outputs. Favorites and categories are stored in SQLite and cannot be rebuilt from a scan alone. Tagging is an optional command, not a claim that every newly downloaded song already has genre labels.
 
+Visualizer jobs with catastrophic captions become `needs_review`, retaining their timelines, diagnostics and any previous videos. They are not retried automatically. Review the words against the recording, then enqueue the master with a corrected `--words FILE` snapshot, or enqueue it normally after an algorithm update. Both approaches create a new job when the caption/source fingerprint changes. See the [karaoke documentation](../visualizer/README.md) for the guards and commands. These checks detect structural failures; accepted captions can still contain recognition mistakes.
+
 ## Logs and services
 
 ```bash

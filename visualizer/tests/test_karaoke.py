@@ -5,9 +5,67 @@ import unittest
 
 from vis.karaoke import clean_lyrics, find_prompt, reference_candidates, group_segments, validate_timeline, words
 from vis.captions import CaptionPainter
+from vis.karaoke import select_recognition, recognition_segments, caption_quality, require_caption_quality, KaraokeQualityError
 
 
 class KaraokeTests(unittest.TestCase):
+    def test_hallucinated_stem_loop_selects_independent_mix_transcript(self):
+        phrase = "I've been waiting for you for a long time"
+        stem = {'transcription': [{'text': phrase, 'offsets': {'from': i*1000, 'to': (i+1)*1000}}
+                                 for i in range(30)]}
+        lyrics = 'Velvet dress and silk untied blood upon the satin hide'
+        mix = {'transcription': [{'text': lyrics, 'offsets': {'from': 0, 'to': 10000}}]}
+        primary, secondary, report = select_recognition(stem, mix, lyrics, 60)
+        self.assertIs(primary, mix)
+        self.assertIs(secondary, stem)
+        self.assertEqual(report['selected'], 'mix')
+
+    def test_music_descriptions_and_segments_past_audio_end_are_not_lyrics(self):
+        r = {'transcription': [{'text': '*sad music*', 'offsets': {'from': 0, 'to': 5000}},
+                              {'text': 'Real words', 'offsets': {'from': 5000, 'to': 9000}},
+                              {'text': 'Thank you', 'offsets': {'from': 11000, 'to': 40000}}]}
+        self.assertEqual(recognition_segments(r, 10), [{'text': 'Real words', 'start': 5, 'end': 9}])
+
+    def test_catastrophic_caption_support_and_phrase_drift_block_publication(self):
+        t = {'words': [{'word': 'invented', 'start': i*.1, 'end': i*.1+.05, 'confidence': .01}
+                       for i in range(30)]}
+        with self.assertRaises(KaraokeQualityError): require_caption_quality(t)
+        t = {'words': [{'word': 'late', 'start': 80, 'end': 81, 'confidence': .9, 'segment': 0}],
+             'decisions': [{'start': 10, 'end': 20}]}
+        self.assertEqual(caption_quality(t)['phrase_drift_words'], 1)
+        with self.assertRaises(KaraokeQualityError): require_caption_quality(t)
+
+    def test_alignment_never_combines_distant_phrase_targets(self):
+        from unittest.mock import patch
+        import torch
+        import numpy as np
+        import soundfile as sf
+        from vis.karaoke import align_song
+        calls = []
+        class LocalAligner:
+            def __init__(self, *args): self.torch = torch
+            def emission(self, samples): return torch.zeros((1, len(samples)//320, 4))
+            def align(self, emission, text, start, duration, frame_bounds=None):
+                # The old whole-song pass passed both words and pulled them
+                # across the gap. Every new target must belong to one window.
+                assert len(text) == 1
+                if frame_bounds is None:
+                    a, b = start+.1, start+.2
+                else:
+                    a, b = float(frame_bounds[0][2]), float(frame_bounds[1][3])
+                    calls.append((text[0],a,b))
+                return [{'word': text[0], 'start': a, 'end': b, 'confidence': .9}], 0.
+        with tempfile.TemporaryDirectory() as folder:
+            work = Path(folder); audio = work/'vocals.wav'
+            sf.write(audio, np.zeros(16*16000), 16000)
+            recognition = {'transcription': [{'text': 'A', 'offsets': {'from': 1000, 'to': 2000}},
+                                            {'text': 'B', 'offsets': {'from': 11000, 'to': 12000}}]}
+            with patch('vis.karaoke.AcousticAligner', LocalAligner):
+                output, _, _ = align_song(audio, recognition, 'A B', work)
+            self.assertEqual(len(output), 2)
+            self.assertLess(calls[0][2],3)
+            self.assertGreater(calls[1][1],10)
+
     def test_whisper_prime_apostrophe_stays_one_word(self):
         self.assertEqual(words('I′m she’s you＇ve'), ["I'm", "she's", "you've"])
 
@@ -21,6 +79,13 @@ class KaraokeTests(unittest.TestCase):
             (root / 'a.json').write_text(json.dumps({'id': 'new_song', 'source_id': 'song_v2', 'lyrics': 'Wrong'}))
             (root / 'b.json').write_text(json.dumps({'songs': [{'id': 'song_v2', 'lyrics': 'Correct'}]}))
             self.assertEqual(find_prompt('song_v2.ogg', root)['lyrics'], 'Correct')
+
+    def test_explicit_json_for_another_song_is_not_silently_accepted(self):
+        with tempfile.TemporaryDirectory() as folder:
+            p = Path(folder)/'wrong.json'
+            p.write_text(json.dumps({'id':'another_song','lyrics':'Wrong song words'}))
+            with self.assertRaisesRegex(ValueError, 'No exact lyric prompt'):
+                find_prompt('song.flac', explicit=p)
 
     def test_conflicting_prompts_require_explicit_source(self):
         with tempfile.TemporaryDirectory() as folder:

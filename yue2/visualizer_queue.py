@@ -21,6 +21,10 @@ QUEUE_ROOT = ROOT / 'queue/visualizer'
 MAX_ATTEMPTS = 3
 
 
+class KaraokeReviewNeeded(ValueError):
+    pass
+
+
 @contextmanager
 def state_lock(folder):
     with (Path(folder) / '.state.lock').open('a') as lock:
@@ -80,7 +84,7 @@ def state_is_current(job, state):
     return words.is_file() and digest(words) == state.get('words_sha256')
 
 
-def enqueue_track(audio, prompt=None, database=DEFAULT_DATABASE, queue_root=QUEUE_ROOT, vis_root=VIS_ROOT):
+def enqueue_track(audio, prompt=None, database=DEFAULT_DATABASE, queue_root=QUEUE_ROOT, vis_root=VIS_ROOT, words_file=None):
     audio = Path(audio).resolve()
     queue_root, vis_root = Path(queue_root).resolve(), Path(vis_root).resolve()
     metadata = json.loads(audio.with_name(audio.stem + '_metadata.json').read_text())
@@ -103,6 +107,11 @@ def enqueue_track(audio, prompt=None, database=DEFAULT_DATABASE, queue_root=QUEU
     identity = {'audio': str(audio), 'audio_sha256': audio_hash, 'prompt': prompt,
                 'config': config, 'renderer_revision': renderer_revision(vis_root),
                 'database': str(Path(database).resolve())}
+    if words_file:
+        words_file = Path(words_file).resolve()
+        if json.loads(words_file.read_text()).get('audio_sha256') != audio_hash:
+            raise ValueError('Prepared captions do not belong to this exact audio')
+        identity['prepared_words_sha256'] = digest(words_file)
     job_id = hashlib.sha256(json.dumps(identity, sort_keys=True, allow_nan=False).encode()).hexdigest()
     folder = queue_root / 'jobs' / job_id
     queue_root.mkdir(parents=True, exist_ok=True)
@@ -126,6 +135,11 @@ def enqueue_track(audio, prompt=None, database=DEFAULT_DATABASE, queue_root=QUEU
                 # Publish job.json last: the worker never sees an incomplete snapshot.
                 atomic_json(folder / 'prompt.json', prompt)
                 atomic_json(folder / 'config.json', config)
+                if words_file:
+                    raw = words_file.read_bytes()
+                    if hashlib.sha256(raw).hexdigest() != identity['prepared_words_sha256']:
+                        raise ValueError('Prepared captions changed while enqueueing')
+                    (folder/'words.json').write_bytes(raw)
                 state = {'status': 'queued', 'attempts': 0}
                 atomic_json(state_path, state)
                 atomic_json(job_path, job)
@@ -160,6 +174,12 @@ def run_job(job, state, compute_fd=None):
                    '--lyrics', str(folder / 'prompt.json'), '--config', str(folder / 'config.json'),
                    '--output-dir', job['output_dir'], '--karaoke-root', str(Path(job['vis_root']) / 'output/karaoke'),
                    '--threads', '4']
+        if job.get('prepared_words_sha256'):
+            prepared = folder/'words.json'
+            if digest(prepared) != job['prepared_words_sha256']:
+                raise ValueError('Prepared caption snapshot changed; enqueue a new job')
+            command += ['--words', str(prepared)]
+        (Path(job['output_dir'])/'karaoke_review.json').unlink(missing_ok=True)
         print(f"Rendering {Path(job['audio']).stem}; attempt {attempt}; log: {folder / 'render.log'}", flush=True)
         environment = {**os.environ, 'PYTHONUNBUFFERED': '1', 'OMP_NUM_THREADS': '4', 'MKL_NUM_THREADS': '4',
                        'OPENBLAS_NUM_THREADS': '4'}
@@ -171,6 +191,12 @@ def run_job(job, state, compute_fd=None):
                                     pass_fds=(compute_fd,) if compute_fd is not None else ())
             code = proc.wait()
         if code:
+            review_path = Path(job['output_dir'])/'karaoke_review.json'
+            if review_path.is_file():
+                review = json.loads(review_path.read_text())
+                if review.get('status') == 'needs_review' and review.get('audio_sha256') == job['audio_sha256']:
+                    current['karaoke_quality'] = review
+                    raise KaraokeReviewNeeded('; '.join(review.get('reasons', ['Unreliable karaoke captions'])))
             raise RuntimeError(f'Visualizer exited {code}; see {folder / "render.log"}')
         receipt = json.loads((Path(job['output_dir']) / 'render_receipt.json').read_text())
         if receipt.get('status') != 'complete' or receipt['provenance']['audio_sha256'] != job['audio_sha256']:
@@ -180,6 +206,7 @@ def run_job(job, state, compute_fd=None):
             return current
         current.update(status='complete', videos=receipt['videos'], words_file=receipt['words_file'],
                        word_count=receipt['word_count'], review_count=receipt['review_count'],
+                       karaoke_quality=receipt.get('karaoke_quality',{}),
                        issues=receipt['issues'], words_sha256=receipt['provenance']['words_sha256'], finished_at=time.time())
         current.pop('error', None)
         if not state_is_current(job, current):
@@ -195,6 +222,10 @@ def run_job(job, state, compute_fd=None):
                 proc.wait()
         current.update(status='queued', attempts=attempt - 1, reason='Worker interrupted; resume next startup')
         raise
+    except KaraokeReviewNeeded as exc:
+        current.update(status='needs_review', error=str(exc))
+        current.pop('next_attempt_at', None)
+        print(f"Karaoke needs review: {Path(job['audio']).stem}: {exc}", flush=True)
     except Exception as exc:
         current.update(status='failed' if attempt >= MAX_ATTEMPTS else 'retrying', error=str(exc))
         if attempt < MAX_ATTEMPTS:
@@ -234,10 +265,13 @@ def main(argv=None):
     parser.add_argument('--queue', type=Path, default=QUEUE_ROOT)
     parser.add_argument('--enqueue', type=Path, help='Recursively enqueue processed masters under a directory, or a single master')
     parser.add_argument('--database', type=Path, default=DEFAULT_DATABASE)
+    parser.add_argument('--words',type=Path,help='Prepared caption JSON for a single --enqueue audio file')
     parser.add_argument('--status', action='store_true', help='Show jobs and exit')
     parser.add_argument('--retry-failed', action='store_true', help='Requeue failed jobs and exit')
     parser.add_argument('--once', action='store_true', help='Process one ready job and exit')
     args = parser.parse_args(argv)
+    if args.words and (not args.enqueue or not args.enqueue.is_file()):
+        parser.error('--words requires a single --enqueue audio file')
     if args.enqueue:
         if not args.enqueue.exists():
             parser.error('Enqueue path does not exist')
@@ -245,7 +279,7 @@ def main(argv=None):
         errors = 0
         for path in sorted(files):
             try:
-                result = enqueue_track(path, database=args.database, queue_root=args.queue)
+                result = enqueue_track(path, database=args.database, queue_root=args.queue, words_file=args.words)
                 print(f'{path.parent.name}: {result["status"]} ({result["job_id"][:12]})')
             except Exception as exc:
                 print(f'{path}: FAILED: {exc}')
