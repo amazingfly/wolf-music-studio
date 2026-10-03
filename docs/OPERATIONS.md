@@ -8,8 +8,8 @@ The launcher preserves each component's CLI, including `--help`:
 | --- | --- |
 | `./studio library` | Interactive library: default name search, playback, clipboard, favorites |
 | `./studio make-config` | Validate/merge downloaded JSONs and publish to pending |
-| `./studio trim DIRECTORY` | Recursively create strict-truncation named FLAC masters |
-| `./studio tag FILE_OR_GLOB` | Optional Essentia tags and database/library update |
+| `./studio trim DIRECTORY` | Recursively create strict-truncation named FLAC masters and tag them |
+| `./studio tag FILE_OR_GLOB` | Analyze/backfill Essentia tags and update the database/library |
 | `./studio visualize --status` | Persistent visualizer queue state |
 | `./studio visualize --enqueue DIRECTORY` | Backfill processed masters |
 | `./studio visualize --retry-failed` | Retry reported failures after correcting the cause |
@@ -38,7 +38,11 @@ Historical configs under `yue2/examples/historical_configs` and source requests 
 
 Queue states are `pending → running → done`, with `failed` and `cancelled` holding explicit outcomes. Interruptions preserve the current run identity/stages. Completed local downloads retain original `audio.flac`; strict truncation creates `<track-directory>.flac`, reports, checksums and registry metadata. Detached trailing music is discarded in this automatic workflow. FLAC is retained for subsequent analysis and video creation; generated MP4s contain their own AAC copy.
 
-The global JSON registry, per-file sidecars and SQLite catalog track prompt source, original/trimmed media, tags and visualizer outputs. Favorites and categories are stored in SQLite and cannot be rebuilt from a scan alone. Tagging is an optional command, not a claim that every newly downloaded song already has genre labels.
+The global JSON registry, per-file sidecars and SQLite catalog track prompt source, original/trimmed media, tags and visualizer outputs. Favorites and categories are stored in SQLite and cannot be rebuilt from a scan alone.
+
+After each verified download is trimmed, TrackTags analyzes the named FLAC, then the visualizer is enqueued. Install its dependencies with `./studio setup --profile controller --tags`. The classifier runs on CPU with bounded thread counts; `YUE2_TAG_PYTHON` selects its interpreter for standalone workers (the launcher supplies the controller interpreter). Results are bound to the trimmed audio checksum and skipped when current. Tagging failures appear under `tagging_workflow` and in the download receipt, retry on the next harvest, and do not prevent video enqueueing.
+
+TrackTags saves ten ranked entries in `top_genres`, ten entries in `hashtags`, and the first five joined by spaces in `hashtags_top5`. Scores are model outputs, not a guarantee that every genre applies. The library's F4 copies the top five; searches still cover all ten. Older five-tag records are reanalyzed when revisited. To backfill one master, run `./studio tag /path/to/track/track.flac`; recursive `./studio trim DIRECTORY` also tags unchanged masters, or add `--no-tags` for trimming alone. These operations preserve original audio and generation prompts.
 
 Visualizer jobs with catastrophic captions become `needs_review`, retaining their timelines, diagnostics and any previous videos. They are not retried automatically. Review the words against the recording, then enqueue the master with a corrected `--words FILE` snapshot, or enqueue it normally after an algorithm update. Both approaches create a new job when the caption/source fingerprint changes. See the [karaoke documentation](../visualizer/README.md) for the guards and commands. These checks detect structural failures; accepted captions can still contain recognition mistakes.
 

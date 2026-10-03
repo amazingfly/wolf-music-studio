@@ -51,6 +51,7 @@ def environment(config=None):
         'YUE2_GEMMA_GPU_LAYERS':config['gemma_gpu_layers'], 'YUE2_GEMMA_CONTEXT':config['gemma_context'],
         'YUE2_VIS_ROOT':str(path(config['visualizer_root'])),
         'YUE2_VIS_PYTHON':str(path(config['visualizer_python'])),
+        'YUE2_TAG_PYTHON':str(path(config['controller_python'])),
         'YUE2_COLAB_PYTHON':str(path(config['colab_python'])),
         'YUE2_COMPUTE_ROOT':str(path(config['compute_root'])),
         'RCLONE_CONFIG':str(path(config['rclone_config']))}

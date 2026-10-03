@@ -96,6 +96,7 @@ def test_request_snapshot_recovers_without_batch_config(tmp_path):
 
 def test_hashtags_and_missing_prompt():
     assert catalog.hashtags({'hashtags': ['#Metal', 'hard core', '#metal', '##rock']}) == '#Metal #hardcore #rock'
+    assert catalog.hashtags({'hashtags':['#'+str(i) for i in range(10)]},limit=5) == '#0 #1 #2 #3 #4'
     with pytest.raises(ValueError, match='No source prompt'):
         catalog.prompt_text({'prompt': {}})
 
@@ -191,11 +192,13 @@ def test_tracktags_updates_catalog_when_reusing_finished_record(tmp_path, monkey
     spec.loader.exec_module(module)
     run, folder, prompt = generated(tmp_path, 'batch')
     metadata = {'file_path': str(folder / 'audio.flac'), 'hashtags': ['#Metal'],
+                'analysis_version': module.ANALYSIS_VERSION, 'hashtags_top5': '#Metal',
                 'top_genres': [{'genre': 'Metal', 'confidence': .9}], 'description': 'Metal song',
                 'description_keywords': ['Metal'], 'audio_metrics': {'bpm': 170, 'key': 'A minor', 'danceability': .8}}
     save(tmp_path / 'master_database.json', {'song': metadata})
     monkeypatch.setattr(module, 'SCRIPT_DIR', tmp_path)
     monkeypatch.setattr(module, 'MASTER_DB_FILE', str(tmp_path / 'master_database.json'))
+    monkeypatch.setattr(module, 'download_models_if_missing', lambda: pytest.fail('Completed metadata needs no model download'))
     monkeypatch.setattr(module, 'analyze_track', lambda *args: pytest.fail('Must not reanalyze'))
     assert module.main([str(folder / 'audio.flac')]) == 0
     rows = catalog.load_tracks(tmp_path / 'track_catalog.sqlite3')
@@ -224,6 +227,7 @@ def test_tracktags_new_or_restored_analysis_updates_catalog(tmp_path, monkeypatc
     spec.loader.exec_module(module)
     run, folder, prompt = generated(tmp_path, 'batch')
     analysis = {'hashtags': ['#Hardcore'], 'top_genres': [{'genre': 'Hardcore', 'confidence': .9}],
+                'analysis_version': module.ANALYSIS_VERSION, 'hashtags_top5': '#Hardcore',
                 'description': 'Hardcore song', 'description_keywords': ['Hardcore'],
                 'audio_metrics': {'bpm': 170, 'key': 'A minor', 'danceability': .8}}
     if restored:

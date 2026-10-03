@@ -145,7 +145,7 @@ class Browser:
                     raise ValueError('Select a track first')
                 text = prompt_text(self.track)
             else:
-                text = hashtags(self.file['metadata']) if self.file else ''
+                text = hashtags(self.file['metadata'], limit=5) if self.file else ''
                 if not text:
                     raise ValueError('The selected file has no TrackTags hashtags')
             self.message = f'Copying {kind}...'
@@ -485,7 +485,7 @@ def show_help(screen):
         'F7 / Ctrl+P pauses. F8 stops. Left/Right seeks 10 seconds.',
         'Ctrl+B / Ctrl+F seeks 30 seconds. Search never stops playback.', '',
         'F3 / Ctrl+C copies the complete source song JSON to your clipboard.',
-        'F4 / Ctrl+T copies only the selected file hashtags: #metal #rock',
+        'F4 / Ctrl+T copies the selected file top five hashtags: #metal #rock',
         'No tags are substituted from a different version.', '',
         'F11 / Ctrl+G opens favorite categories: N creates, Space adds/removes,',
         'E exports prompt-only JSON, Enter browses a category. * marks favorites.',

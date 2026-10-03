@@ -19,6 +19,7 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 EMBEDDING_GRAPH = str(SCRIPT_DIR / EMBEDDING_GRAPH)
 GENRE_JSON = str(SCRIPT_DIR / GENRE_JSON)
 MASTER_DB_FILE = str(SCRIPT_DIR / "master_database.json")
+ANALYSIS_VERSION = 2
 sys.path.insert(0, str(SCRIPT_DIR.parent))
 from track_registry import merge_record
 
@@ -66,20 +67,7 @@ def analyze_track(file_path, classes):
     # 3. Average predictions across all frames
     mean_predictions = np.mean(predictions, axis=0)
 
-    # Top 5 genres
-    top_indices = np.argsort(mean_predictions)[::-1][:5]
-    top_genres = []
-    hashtags = []
-
-    for idx in top_indices:
-        raw_label = classes[idx]
-        clean_label = raw_label.replace("---", " / ")
-        score = float(mean_predictions[idx])
-        top_genres.append({"genre": clean_label, "confidence": round(score, 4)})
-
-        # Format hashtag (e.g., #Industrial, #Darkwave)
-        sub_tag = clean_label.split(" / ")[-1].replace(" ", "").replace("-", "")
-        hashtags.append(f"#{sub_tag}")
+    top_genres, hashtags = ranked_genres(mean_predictions, classes)
 
     # 4. Extract acoustic metrics (using *_ to safely handle all return values)
     bpm, *_ = es.RhythmExtractor2013()(audio)
@@ -110,6 +98,7 @@ def analyze_track(file_path, classes):
     return {
         "top_genres": top_genres,
         "hashtags": hashtags,
+        "hashtags_top5": " ".join(hashtags[:5]),
         "description": description,
         "description_keywords": desc_words,
         "audio_metrics": {
@@ -119,12 +108,24 @@ def analyze_track(file_path, classes):
         }
     }
 
+def ranked_genres(predictions, classes):
+    """The ten highest model scores, in descending order; scores are not genre certainty."""
+    import numpy as np
+    top_genres, hashtags = [], []
+    for idx in np.argsort(predictions)[::-1][:10]:
+        label = classes[idx].replace("---", " / ")
+        top_genres.append({"genre": label, "confidence": round(float(predictions[idx]), 4)})
+        tag = label.split(" / ")[-1].replace(" ", "").replace("-", "")
+        hashtags.append(f"#{tag}")
+    return top_genres, hashtags
+
+
 ANALYSIS_FIELDS = (
-    "top_genres", "hashtags", "description", "description_keywords", "audio_metrics"
+    "top_genres", "hashtags", "hashtags_top5", "description", "description_keywords", "audio_metrics"
 )
 
 
-def is_finished(record):
+def is_finished(record, current_version=True):
     if isinstance(record, dict) and record.get('audio_workflow', {}).get('role') == 'master':
         workflow = record['audio_workflow']
         if (workflow.get('status') != 'complete' or record.get('analysis_status') != 'complete'
@@ -132,7 +133,9 @@ def is_finished(record):
             return False
     return (
         isinstance(record, dict)
-        and all(record.get(field) for field in ANALYSIS_FIELDS)
+        and (not current_version or record.get('analysis_version') == ANALYSIS_VERSION)
+        and all(record.get(field) for field in ANALYSIS_FIELDS if current_version or field != 'hashtags_top5')
+        and (not current_version or record['hashtags_top5'] == ' '.join(record['hashtags'][:5]))
         and all(key in record["audio_metrics"] for key in ("bpm", "key", "danceability"))
     )
 
@@ -166,6 +169,7 @@ def save_json(path, data):
 def main(argv=None):
     parser = argparse.ArgumentParser(description="Tag audio and resume without reanalyzing completed tracks.")
     parser.add_argument("files", nargs="*", help="OGG, FLAC or WAV filenames (quoted globs also work); default: scan current directory")
+    parser.add_argument('--database', type=Path, default=Path(MASTER_DB_FILE), help='Global JSON database path')
     args = parser.parse_args(argv)
     extensions = {".ogg", ".flac", ".wav"}
     paths = []
@@ -184,7 +188,7 @@ def main(argv=None):
                        if path.is_file() and path.suffix.lower() in extensions)
     paths = list(dict.fromkeys(paths))
 
-    db_path = Path(MASTER_DB_FILE)
+    db_path = args.database.expanduser().resolve()
     master_db = json.loads(db_path.read_text()) if db_path.exists() else {}
     if not isinstance(master_db, dict):
         raise ValueError(f"Expected a JSON object in {db_path}; refusing to overwrite it")
@@ -221,6 +225,7 @@ def main(argv=None):
                     errors += 1
                     continue
             print(f"Skipping completed: {path}")
+            print(f"  Top 5: {completed['hashtags_top5']}")
             skipped += 1
             update_catalog(path)
             continue
@@ -251,7 +256,7 @@ def main(argv=None):
                     print(f"Restored completed metadata to database: {path}")
                     update_catalog(path)
                     continue
-                if not track_data.get('audio_workflow'):
+                if not track_data.get('audio_workflow') and not is_finished(track_data, current_version=False):
                     raise ValueError(f"Existing metadata is incomplete: {local_path}; preserving it")
                 base.update(track_data)
 
@@ -276,6 +281,7 @@ def main(argv=None):
                         classes = json.load(f)["classes"]
                 print(f"Processing: {path} (ID: {track_id})")
                 analysis_result = analyze_track(audio_path, classes)
+            analysis_result['hashtags_top5'] = ' '.join(analysis_result['hashtags'][:5])
             track_data = {
                 **base,
                 "track_identifier": track_id,
@@ -283,6 +289,7 @@ def main(argv=None):
                 "file_path": audio_path,
                 **analysis_result,
                 'analysis_status': 'complete',
+                'analysis_version': ANALYSIS_VERSION,
             }
             if input_hash:
                 if sha256(path) != input_hash:
@@ -302,6 +309,7 @@ def main(argv=None):
             else:
                 processed += 1
             print(f"  Saved -> {local_path}")
+            print(f"  Top 5: {track_data['hashtags_top5']}")
             update_catalog(path)
         except Exception as e:
             errors += 1

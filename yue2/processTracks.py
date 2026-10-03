@@ -8,10 +8,13 @@ from dataclasses import asdict
 from datetime import datetime, timezone
 import fcntl
 import json
+import os
 from pathlib import Path
+import subprocess
+import sys
 
 import autoTrim
-from track_registry import DEFAULT_DATABASE, atomic_json, key_for, locked_database, record_for
+from track_registry import DEFAULT_DATABASE, atomic_json, key_for, locked_database, record_for, merge_record
 
 SETTINGS = autoTrim.Settings(late_audio='truncate')
 WORKFLOW_VERSION = 1
@@ -83,9 +86,11 @@ def register(source, target, report, database, error=None):
             if changed:
                 for field in ('audio_metrics', 'description', 'description_keywords', 'analysis_source_path', 'analysis_audio_sha256'):
                     master.pop(field, None)
-                for field in ('hashtags', 'top_genres'):
+                for field in ('hashtags', 'top_genres', 'hashtags_top5'):
                     if original.get(field):
                         master[field] = original[field]
+                if master.get('hashtags'):
+                    master['hashtags_top5'] = ' '.join(master['hashtags'][:5])
                 master['analysis_status'] = 'inherited' if master.get('hashtags') else 'pending'
                 from_original = bool(original.get('hashtags') or original.get('top_genres'))
                 master['analysis_source_path'] = str(source if from_original else target)
@@ -159,12 +164,48 @@ def process_track(source, database=DEFAULT_DATABASE, overwrite=False, force=Fals
             raise
 
 
+def tag_processed_track(target, database=DEFAULT_DATABASE):
+    """Tag the verified master with a separate CPU process; retry failed/missing analysis."""
+    target = Path(target).resolve()
+    from importlib.util import spec_from_file_location, module_from_spec
+    script = Path(__file__).resolve().parent/'outputs/trackTags.py'
+    spec = spec_from_file_location('track_tags_status', script)
+    tags = module_from_spec(spec)
+    spec.loader.exec_module(tags)
+    with target.with_name('.track_tagging.lock').open('a') as lock:
+        fcntl.flock(lock, fcntl.LOCK_EX)
+        data = json.loads(Path(database).read_text())
+        record = record_for(data, target)
+        if tags.is_finished(record) and autoTrim.sha256(target) == record.get('analysis_audio_sha256'):
+            if record.get('tagging_workflow', {}).get('status') == 'failed':
+                merge_record(target, {'tagging_workflow': {'status': 'complete',
+                             'updated_at': datetime.now(timezone.utc).isoformat()}}, database)
+            return {'status': 'complete', 'hashtags_top5': record['hashtags_top5'], 'cached': True}
+        environment = {**os.environ, 'TF_CPP_MIN_LOG_LEVEL': '2', 'CUDA_VISIBLE_DEVICES': '-1',
+                       'OMP_NUM_THREADS': '2', 'TF_NUM_INTRAOP_THREADS': '2', 'TF_NUM_INTEROP_THREADS': '1'}
+        interpreter = os.environ.get('YUE2_TAG_PYTHON', sys.executable)
+        try:
+            subprocess.run([interpreter, '-u', str(script), str(target), '--database', str(database)],
+                           check=True, timeout=600, env=environment)
+            record = record_for(json.loads(Path(database).read_text()), target)
+            if not tags.is_finished(record) or autoTrim.sha256(target) != record.get('analysis_audio_sha256'):
+                raise ValueError('Tagger did not publish current, complete master analysis')
+            workflow = {'status': 'complete', 'updated_at': datetime.now(timezone.utc).isoformat()}
+            merge_record(target, {'tagging_workflow': workflow}, database)
+            return {**workflow, 'hashtags_top5': record['hashtags_top5'], 'cached': False}
+        except Exception as exc:
+            merge_record(target, {'tagging_workflow': {'status': 'failed', 'error': str(exc),
+                         'updated_at': datetime.now(timezone.utc).isoformat()}}, database)
+            raise
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('directory', type=Path, help='Directory to recursively scan, or a single audio.flac')
     parser.add_argument('--database', type=Path, default=DEFAULT_DATABASE, help='Global JSON database path')
     parser.add_argument('--force', action='store_true', help='Recompute unchanged masters already owned by this workflow')
     parser.add_argument('--overwrite', action='store_true', help='Allow replacing existing or modified named exports')
+    parser.add_argument('--no-tags', action='store_true', help='Trim only, without running TrackTags')
     args = parser.parse_args(argv)
     directory = args.directory.resolve()
     if not directory.exists():
@@ -174,13 +215,20 @@ def main(argv=None):
     sources = [directory] if directory.is_file() else sorted(directory.rglob('audio.flac'))
     if not sources:
         parser.error(f'No original audio.flac files found: {directory}')
-    counts = {'processed': 0, 'unchanged': 0, 'failed': 0}
+    counts = {'processed': 0, 'unchanged': 0, 'failed': 0, 'tagging_failed': 0}
     runs = set()
     for source in sources:
         try:
             result = process_track(source, args.database, args.overwrite, args.force)
             counts[result['processing_status']] += 1
             print(f"{source.parent.name}: {result['processing_status']} -> {Path(result['output']).name}", flush=True)
+            if not args.no_tags:
+                try:
+                    tagged = tag_processed_track(result['output'], args.database)
+                    print(f"  Top 5: {tagged['hashtags_top5']}", flush=True)
+                except Exception as exc:
+                    counts['tagging_failed'] += 1
+                    print(f'Tagging failed (rerun to retry): {source.parent.name}: {exc}', flush=True)
         except Exception as exc:
             counts['failed'] += 1
             print(f'{source}: FAILED: {exc}', flush=True)
@@ -188,8 +236,8 @@ def main(argv=None):
     from track_catalog import sync_run_safely
     for run in sorted(runs):
         sync_run_safely(run)
-    print(f"Processed {counts['processed']}, unchanged {counts['unchanged']}, failed {counts['failed']}. Database: {args.database}")
-    return 1 if counts['failed'] else 0
+    print(f"Processed {counts['processed']}, unchanged {counts['unchanged']}, failed {counts['failed']}, tagging failed {counts['tagging_failed']}. Database: {args.database}")
+    return 1 if counts['failed'] or counts['tagging_failed'] else 0
 
 
 if __name__ == '__main__':

@@ -29,14 +29,14 @@ def read_json(path, default, warnings):
         return default
 
 
-def hashtags(metadata):
+def hashtags(metadata, limit=None):
     """Clipboard form: one space between hashtags, with no trailing newline."""
     result = []
     for tag in metadata.get('hashtags', []):
         clean = '#' + re.sub(r'\s+', '', str(tag).lstrip('#'))
         if clean != '#' and clean.casefold() not in {item.casefold() for item in result}:
             result.append(clean)
-    return ' '.join(result)
+    return ' '.join(result if limit is None else result[:limit])
 
 
 def prompt_text(track):

@@ -14,7 +14,7 @@ The visualizer has a **separate** environment: PyTorch/torchaudio 2.8 preserve t
 
 Use `--dev` with either profile (or `all`) to install pytest into every selected environment. The visualizer test runner must use `visualizer/.venv/bin/python`; the controller environment does not contain the rendering/alignment dependencies.
 
-The last command includes optional tagging. Essentia TensorFlow wheel availability varies by platform; omit `--tags` if the wheel cannot install, while retaining trim/library/visualizer functionality. Without tagging, existing tags are still imported into the library.
+The last command installs tagging dependencies for automatic analysis after trimming. Essentia TensorFlow wheel availability varies by platform; omit `--tags` if the wheel cannot install, while retaining trim/library/visualizer functionality. Without tagging dependencies, automatic tag attempts are recorded as failed for retry and videos can still be enqueued. Existing saved tags are still imported into the library; use `--no-tags` with the standalone trimming command to skip analysis.
 
 System dependencies are listed in the main README. `./studio doctor` reports missing dependencies without loading a model, rendering media, requesting Colab or reading credentials into its output. A controller-only install legitimately reports missing visualizer/model prerequisites. Gemma/Whisper builds are pinned to the commits in `sources.json`; cached external checkouts and build products are ignored by Git.
 

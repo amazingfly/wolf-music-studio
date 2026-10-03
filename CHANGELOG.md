@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.2
+
+TrackTags records the top ten genre scores/hashtags and a `hashtags_top5` string for pasting into video descriptions. The library copies the top five while searching all ten. Existing five-tag analyses are upgraded when revisited.
+
+Verified local downloads now run CPU tagging on the named trimmed FLAC before visualizer enqueueing. Tagging failures are recorded separately and retried on the next harvest; video generation can continue. Recursive trimming also tags by default, with `--no-tags` available for trim-only processing.
+
 ## 0.2.1
 
 Fixes karaoke transcription loops and large timing drift. Recognition disables accumulated text context, compares the vocal stem with independent original-mix recognition, and aligns each phrase within its own acoustic window. Out-of-range segments and descriptive music annotations are excluded.

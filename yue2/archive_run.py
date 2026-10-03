@@ -113,7 +113,7 @@ def download_completed():
 
 def postprocess_tracks(requests=None):
     """Run only on verified local originals. Failures remain retryable next harvest."""
-    from processTracks import process_track
+    from processTracks import process_track, tag_processed_track
     from visualizer_queue import enqueue_track
     results = []
     for request in (expected() if requests is None else requests):
@@ -124,6 +124,11 @@ def postprocess_tracks(requests=None):
             report = process_track(LOCAL / name / 'audio.flac')
             result = {'id': name, 'status': report['processing_status'],
                       'output': report['output'], 'output_seconds': report['output_seconds']}
+            try:
+                result['tagging'] = tag_processed_track(report['output'])
+            except Exception as exc:
+                print(f'Track tagging failed (will retry): {name}: {exc}', flush=True)
+                result['tagging'] = {'status': 'failed', 'error': str(exc)}
             try:
                 result['visualizer'] = enqueue_track(report['output'], prompt=request)
             except Exception as exc:

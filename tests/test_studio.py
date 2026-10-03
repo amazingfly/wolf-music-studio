@@ -30,6 +30,7 @@ def test_environment_resolves_spaces_and_separates_interpreters(monkeypatch,tmp_
     assert env['YUE2_VIS_ROOT']==str(tmp_path/'visualizer with spaces')
     assert env['YUE2_GEMMA_ROOT']==str(tmp_path/'gemma models')
     assert env['YUE2_VIS_PYTHON']!=env['YUE2_COLAB_PYTHON']
+    assert env['YUE2_TAG_PYTHON']==str(tmp_path/'.venv/bin/python')
     assert env['YUE2_DRIVE_BASE']=='customDrive:music/'
     assert env['YUE2_GEMMA_CONTEXT']=='12288'
 

@@ -114,6 +114,9 @@ def test_changed_settings_rebuild_owned_master_and_invalidate_measured_metrics(t
 
 def test_recursive_cli_only_processes_originals_and_reports_errors(tmp_path, monkeypatch):
     source, db, _ = make_source(tmp_path)
+    tagged = []
+    monkeypatch.setattr(processing, 'tag_processed_track', lambda target, database:
+                        tagged.append(target) or {'hashtags_top5': '#Metal'})
     other = source.parent / 'subdir/audio.flac'
     other.parent.mkdir()
     other.write_bytes(b'bad audio')
@@ -123,6 +126,7 @@ def test_recursive_cli_only_processes_originals_and_reports_errors(tmp_path, mon
     records = json.loads(db.read_text())
     assert len(records) == 3  # original, canonical master, failed nested original
     assert (source.parent / 'wolf_song.flac').exists()
+    assert tagged == [str(source.parent / 'wolf_song.flac')]
 
 
 def registry_worker(args):
@@ -167,6 +171,89 @@ def test_tracktags_analyzes_workflow_master_and_keeps_metadata(tmp_path, monkeyp
     assert record['audio_workflow']['method'] == 'truncate'
     assert record['visualizer_note'] == 'preserved' and record['prompt']['seed'] == 1
     assert record['analysis_audio_sha256'] == report['output_sha256']
+    assert record['analysis_version'] == tags.ANALYSIS_VERSION
+    assert record['hashtags_top5'] == '#Metal'
+
+
+def test_archive_tags_trimmed_master_before_visualizer_and_retries_failure(tmp_path, monkeypatch):
+    import archive_run as archive
+    import visualizer_queue
+    monkeypatch.setattr(archive, 'LOCAL', tmp_path)
+    events = []
+    master = tmp_path/'song/song.flac'
+    def trim(source):
+        events.append(('trim', source))
+        return {'processing_status': 'unchanged', 'output': str(master), 'output_seconds': 10}
+    def tag(target):
+        events.append(('tag', target))
+        if sum(e[0] == 'tag' for e in events) == 1:
+            raise RuntimeError('temporary tagging failure')
+        return {'status': 'complete', 'hashtags_top5': '#Metal'}
+    def visualize(target, prompt):
+        events.append(('visualize', target))
+        return {'status': 'queued'}
+    monkeypatch.setattr(processing, 'process_track', trim)
+    monkeypatch.setattr(processing, 'tag_processed_track', tag)
+    monkeypatch.setattr(visualizer_queue, 'enqueue_track', visualize)
+    first = archive.postprocess_tracks([{'id':'song'}])[0]
+    second = archive.postprocess_tracks([{'id':'song'}])[0]
+    assert first['tagging']['status'] == 'failed' and first['visualizer']['status'] == 'queued'
+    assert second['tagging']['status'] == 'complete'
+    assert [e[0] for e in events] == ['trim','tag','visualize']*2
+    assert all(path == str(master) for action,path in events if action != 'trim')
+
+
+def test_top_ten_ranking_and_legacy_analysis_upgrade(tmp_path, monkeypatch):
+    spec = importlib.util.spec_from_file_location('tags_upgrade_test', Path(__file__).parents[1]/'outputs/trackTags.py')
+    tags = importlib.util.module_from_spec(spec); spec.loader.exec_module(tags)
+    classes = ['Rock---Style'+str(i) for i in range(12)]
+    genres, hashtags = tags.ranked_genres(np.arange(12)/12, classes)
+    assert len(genres) == len(hashtags) == 10
+    assert hashtags == ['#Style'+str(i) for i in range(11,1,-1)]
+    audio = tmp_path/'legacy.flac'; audio.write_bytes(b'audio')
+    db = tmp_path/'custom_database.json'
+    old = {'top_genres': genres[:5], 'hashtags':hashtags[:5], 'description':'Legacy',
+           'description_keywords':['metal'], 'audio_metrics':{'bpm':180,'key':'A minor','danceability':1}}
+    merge_record(audio, old, db)
+    assert not tags.is_finished(old) and tags.is_finished(old, current_version=False)
+    classes_path = tmp_path/'classes.json'; atomic_json(classes_path, {'classes':classes})
+    monkeypatch.setattr(tags, 'GENRE_JSON', str(classes_path))
+    monkeypatch.setattr(tags, 'download_models_if_missing', lambda: None)
+    monkeypatch.setattr(tags, 'update_catalog', lambda _: None)
+    calls = []
+    def analyze(*args):
+        calls.append(args[0])
+        return {**old, 'top_genres':genres, 'hashtags':hashtags}
+    monkeypatch.setattr(tags, 'analyze_track', analyze)
+    assert tags.main([str(audio),'--database',str(db)]) == 0
+    assert tags.main([str(audio),'--database',str(db)]) == 0
+    assert calls == [str(audio)]
+    result = next(iter(json.loads(db.read_text()).values()))
+    assert result['hashtags_top5'] == ' '.join(hashtags[:5]) and len(result['top_genres']) == 10
+
+
+def test_tagging_helper_retries_and_skips_verified_complete_master(tmp_path, monkeypatch):
+    source, db, _ = make_source(tmp_path)
+    report = processing.process_track(source, db); target = Path(report['output'])
+    calls = []
+    def run(command, **kwargs):
+        calls.append(command)
+        if len(calls) == 1:
+            raise RuntimeError('missing model')
+        merge_record(target, {'analysis_version':2,'analysis_status':'complete',
+            'analysis_audio_sha256':report['output_sha256'], 'top_genres':[{'genre':'Metal','confidence':.9}],
+            'hashtags':['#Metal'], 'hashtags_top5':'#Metal','description':'Metal',
+            'description_keywords':['metal'],'audio_metrics':{'bpm':180,'key':'A minor','danceability':1}}, db)
+        assert kwargs['env']['CUDA_VISIBLE_DEVICES'] == '-1'
+    monkeypatch.setattr(processing.subprocess,'run',run)
+    with pytest.raises(RuntimeError,match='missing model'):
+        processing.tag_processed_track(target, db)
+    failed = next(r for r in json.loads(db.read_text()).values() if r['file_path'] == str(target))
+    assert failed['tagging_workflow']['status'] == 'failed'
+    assert processing.tag_processed_track(target,db)['cached'] is False
+    assert processing.tag_processed_track(target,db)['cached'] is True
+    assert len(calls) == 2
+    assert '--database' in calls[0] and str(target) in calls[0]
 
 
 def test_archive_postprocessing_failures_are_retryable(tmp_path, monkeypatch):
